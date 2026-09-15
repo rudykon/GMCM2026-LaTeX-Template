@@ -61,6 +61,10 @@ def main():
             log, re.MULTILINE
         )
         assert not errors, name + ":\n" + "\n".join(errors)
+        biblog = (root / (name + ".blg")).read_text(errors="replace")
+        assert "Warning--" not in biblog and "error message" not in biblog, (
+            name + ": incomplete bibliography; inspect the .blg file"
+        )
 
     assert len(contents["main"]) == len(contents["anonymous"]) + 1
     assert contents["main"][1:] == contents["anonymous"], (
@@ -73,6 +77,8 @@ def main():
     assert contents["anonymous"][0].endswith("1"), (
         "Abstract page should start at page 1"
     )
+    for number, page in enumerate(contents["anonymous"], 1):
+        assert page.endswith(str(number)), f"Wrong footer on page {number}"
     print("PASS: A4 pages, matching body pages, empty author metadata,")
     print("      resolved references, no overflow, reproducible sample.")
     print("Pages:", {name: len(r.pages) for name, r in readers.items()})

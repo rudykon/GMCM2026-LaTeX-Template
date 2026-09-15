@@ -2,6 +2,7 @@
 *.tex text eol=lf
 *.cls text eol=lf
 *.bib text eol=lf
+*.bst text eol=lf
 *.sh text eol=lf
 *.py text eol=lf
 *.bat text eol=crlf
