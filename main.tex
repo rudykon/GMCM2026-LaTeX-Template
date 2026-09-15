@@ -1,0 +1,129 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+
+% 2026 华为杯全国研究生数学建模竞赛 LaTeX 模板（简化版）
+% 编译方式：XeLaTeX
+
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\title{\textbf{论文题目}}
+\author{队伍编号：XXXXXX}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+本文针对XXXX问题，建立XXXX模型，提出XXXX方法。
+关键词：数学建模；优化模型；机器学习；预测
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{问题重述}
+介绍赛题背景和需要解决的问题。
+
+\section{问题分析}
+
+\subsection{总体思路}
+给出整体建模流程。
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{figures/framework.png}{%
+  \includegraphics[width=0.75\linewidth]{figures/framework.png}%
+}{%
+  \fbox{\parbox[c][3cm][c]{0.7\linewidth}{\centering
+    在此插入整体技术路线图\\[0.5em]
+    \texttt{figures/framework.png}}}%
+}
+\caption{整体技术路线}
+\end{figure}
+
+\section{模型假设}
+\begin{enumerate}
+\item 假设1；
+\item 假设2；
+\item 假设3。
+\end{enumerate}
+
+\section{符号说明}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ccc}
+\toprule
+符号 & 含义 & 单位\\
+\midrule
+$x$ & 示例变量 & -\\
+$y$ & 输出变量 & -\\
+\bottomrule
+\end{tabular}
+\caption{主要符号说明}
+\end{table}
+
+\section{模型建立}
+
+\subsection{模型一}
+数学公式：
+
+\[
+\min f(x)=\sum_{i=1}^{n}(y_i-\hat y_i)^2
+\]
+
+\subsection{算法设计}
+
+\begin{algorithm}
+\caption{算法流程}
+\begin{algorithmic}
+\STATE 初始化参数
+\STATE 输入数据
+\STATE 迭代优化
+\STATE 输出结果
+\end{algorithmic}
+\end{algorithm}
+
+\section{模型求解}
+
+介绍求解过程、代码实现和实验结果。
+
+\section{结果分析}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ccc}
+\toprule
+方法 & 指标1 & 指标2\\
+\midrule
+Model A & 0.95 & 10\\
+Model B & 0.97 & 8\\
+\bottomrule
+\end{tabular}
+\caption{模型性能比较}
+\end{table}
+
+\section{模型评价}
+
+分析优点、不足和改进方向。
+
+\section{参考文献}
+
+\bibliographystyle{plain}
+% \bibliography{reference}
+
+\appendix
+\section{附录}
+
+附录代码、补充证明等。
+
+\end{document}
