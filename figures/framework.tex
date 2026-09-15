@@ -1,0 +1,12 @@
+% Vector example; replaced automatically by framework.pdf or framework.png.
+\begin{tikzpicture}[
+  stage/.style={draw=black!65,rounded corners=2pt,align=center,
+    minimum width=38mm,minimum height=13mm,font=\small},
+  >={Stealth[length=2mm]}
+]
+  \node[stage] (data) {数据检查\\范围与异常值};
+  \node[stage,right=8mm of data] (model) {模型估计\\最小二乘法};
+  \node[stage,right=8mm of model] (check) {结果检验\\误差与残差};
+  \draw[->] (data) -- (model);
+  \draw[->] (model) -- (check);
+\end{tikzpicture}

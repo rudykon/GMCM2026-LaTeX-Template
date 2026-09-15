@@ -1,0 +1,27 @@
+\section{模型假设}
+\begin{enumerate}
+  \item 在给定数据范围内，输入与输出的主要关系可以用直线近似。
+  \item 观测误差的均值为零；本示例不对分布形状作额外假设。
+  \item 输入变量并非全部相同，从而保证斜率可以被识别。
+\end{enumerate}
+真实论文中应逐条解释假设的合理性，并在模型评价中讨论偏离假设的影响。
+
+\section{符号说明}
+\begin{longtable}{@{}p{0.17\textwidth}p{0.57\textwidth}p{0.17\textwidth}@{}}
+  \caption{主要符号说明}\label{tab:symbols}\\
+  \toprule 符号 & 含义 & 单位\\ \midrule
+  \endfirsthead
+  \multicolumn{3}{c}{表~\thetable\ （续）}\\
+  \toprule 符号 & 含义 & 单位\\ \midrule
+  \endhead
+  \midrule\multicolumn{3}{r}{续下页}\\
+  \endfoot
+  \bottomrule
+  \endlastfoot
+  $n$ & 观测点数量 & --\\
+  $x_i$ & 第 $i$ 个观测点的输入 & --\\
+  $y_i$ & 第 $i$ 个观测点的输出 & --\\
+  $\widehat y_i$ & 模型对第 $i$ 个观测点的拟合值 & --\\
+  $\beta_0,\beta_1$ & 截距与斜率 & --\\
+  $\bar{x},\bar{y}$ & 输入与输出的样本均值 & --\\
+\end{longtable}

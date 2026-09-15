@@ -1,4 +1,4 @@
-# LaTeX build files
+# LaTeX build products; keep source figures, including figure PDFs.
 *.aux
 *.bbl
 *.bcf
@@ -8,14 +8,23 @@
 *.log
 *.lof
 *.lot
+*.loa
+*.lol
 *.out
 *.run.xml
 *.synctex.gz
 *.toc
 *.xdv
 /main.pdf
+/anonymous.pdf
+/build/
 
-# Editor and OS files
+# Personal competition information.
+/config.local.tex
+
+# Editor / OS / Python files.
 .DS_Store
 Thumbs.db
 *.swp
+__pycache__/
+*.pyc

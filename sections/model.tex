@@ -1,0 +1,52 @@
+\section{模型建立与求解}
+\label{sec:model}
+\subsection{模型定义}
+一元线性模型写为
+\begin{equation}
+  \widehat y_i=\beta_0+\beta_1x_i,\qquad i=1,\ldots,n.
+  \label{eq:linear}
+\end{equation}
+用最小二乘法估计参数\citep{hastie2009}：
+\begin{equation}
+  \min_{\beta_0,\beta_1}
+  \sum_{i=1}^{n}\bigl(y_i-\beta_0-\beta_1x_i\bigr)^2.
+  \label{eq:objective}
+\end{equation}
+目标函数中的变量、约束和求解精度均应在正文中解释。
+涉及更一般的约束优化问题时，可根据问题结构选择求解方法\citep{boyd2004}。
+
+\subsection{求解步骤}
+\begin{align}
+  \widehat\beta_1 &=
+  \frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}
+       {\sum_{i=1}^{n}(x_i-\bar{x})^2},\label{eq:slope}\\
+  \widehat\beta_0 &= \bar{y}-\widehat\beta_1\bar{x}.
+  \label{eq:intercept}
+\end{align}
+式\eqref{eq:slope}的分母必须大于零。求解过程见\algorithmref{alg:fit}，
+对应的 Python 与 MATLAB 程序位于附录。
+
+\begin{algorithm}[htbp]
+  \caption{一元线性模型的最小二乘估计}
+  \label{alg:fit}
+  \begin{algorithmic}[1]
+    \Require 观测点 $(x_i,y_i)_{i=1}^{n}$，且输入具有非零方差
+    \Ensure 参数 $\widehat\beta_0,\widehat\beta_1$ 和拟合值 $\widehat y$
+    \State 计算 $\bar{x}$、$\bar{y}$
+    \State 根据式\eqref{eq:slope}计算 $\widehat\beta_1$
+    \State 根据式\eqref{eq:intercept}计算 $\widehat\beta_0$
+    \For{$i=1,\ldots,n$}
+      \State $\widehat y_i\gets\widehat\beta_0+\widehat\beta_1x_i$
+    \EndFor
+    \State \Return $\widehat\beta_0,\widehat\beta_1,\widehat y$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{性质说明}
+\begin{theorem}
+若输入的样本方差非零，则目标函数\eqref{eq:objective}存在唯一的最小二乘解。
+\end{theorem}
+\begin{proof}
+令设计矩阵的两列分别为常数列与输入列。非零样本方差使两列线性无关，
+因此其 Gram 矩阵正定，二次目标函数严格凸，最小值唯一。
+\end{proof}

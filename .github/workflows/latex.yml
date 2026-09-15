@@ -1,0 +1,37 @@
+name: Compile LaTeX
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install TeX Live and PDF tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra \
+            texlive-science texlive-bibtex-extra fonts-texgyre python3-pypdf poppler-utils
+      - name: Compile both entry points
+        run: |
+          bash build.sh
+          bash build.sh anonymous
+      - name: Check pages, references and sample results
+        run: python3 scripts/check_build.py
+      - name: Upload PDFs
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: GMCM2026-PDF
+          path: |
+            main.pdf
+            anonymous.pdf
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,23 @@
+\section{问题重述}
+\label{sec:problem}
+用自己的语言概括赛题背景、已知条件和需要解决的问题。
+对多个子问题分别说明输入、输出和评价标准，保持与原题含义一致。
+本示例给定五个合成观测点，要求估计一元线性关系并计算拟合误差。
+
+\section{问题分析}
+先检查数据范围与异常值，再选择与任务相符的模型和指标。
+本示例的技术路线见\figref{fig:framework}。
+真实任务还应说明数据划分方式，避免使用测试集选择模型参数。
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{figures/framework.pdf}{%
+    \includegraphics[width=0.92\linewidth]{figures/framework.pdf}%
+  }{%
+    \IfFileExists{figures/framework.png}{%
+      \includegraphics[width=0.92\linewidth]{figures/framework.png}%
+    }{\input{figures/framework.tex}}%
+  }
+  \caption{技术路线示例（可用自己的 PDF 或 PNG 图片替换）}
+  \label{fig:framework}
+\end{figure}
