@@ -1,39 +1,68 @@
 % SPDX-License-Identifier: MIT
 % Independently implemented layout; see docs/UPSTREAM.md.
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{gmcm2026}[2026/09/15 v1.1 GMCM writing template]
+\ProvidesClass{gmcm2026}[2026/09/16 v1.2 GMCM 2026 official layout]
 \RequirePackage{iftex}
 \RequireXeTeX
 \newif\ifgmcm@cover
 \newif\ifgmcm@toc
 \newif\ifgmcm@color
+\newif\ifgmcm@autofonts
 \gmcm@covertrue
 \gmcm@tocfalse
 \gmcm@colorfalse
+\gmcm@autofontstrue
 \DeclareOption{anonymous}{\gmcm@coverfalse}
 \DeclareOption{withoutpreface}{\gmcm@coverfalse}
 \DeclareOption{withtoc}{\gmcm@toctrue}
 \DeclareOption{bwprint}{\gmcm@colorfalse}
 \DeclareOption{colorprint}{\gmcm@colortrue}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexart}}
+\DeclareOption*{%
+  \edef\gmcm@checkoption{\noexpand\in@{fontset=}{\CurrentOption}}%
+  \gmcm@checkoption
+  \ifin@\gmcm@autofontsfalse\fi
+  \PassOptionsToClass{\CurrentOption}{ctexart}}
 \ProcessOptions\relax
+\ifgmcm@autofonts\PassOptionsToClass{fontset=fandol}{ctexart}\fi
 \LoadClass[UTF8,a4paper,zihao=-4]{ctexart}
 \RequirePackage{geometry}
-\geometry{top=30mm,bottom=25mm,left=22.5mm,right=22.5mm}
+% Attachment 3: 1702/1048/1276/1274 twips, rounded to 0.1 mm.
+% Include the footer in the bottom area to keep long pages clear of the number.
+\geometry{top=30mm,bottom=18.5mm,left=22.5mm,right=22.5mm,
+  includefoot,footskip=8mm,headheight=0pt,headsep=0pt}
 \RequirePackage{setspace}
-% The published 2025 rules specify single spacing; 2026 still needs checking.
+% Attachment 2 (2026-09-16) specifies single spacing.
 \setstretch{1}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{0pt}
 \raggedbottom
-% CTeX selects Chinese fonts; Latin fonts have a portable fallback.
-\IfFontExistsTF{TeX Gyre Termes}
-  {\setmainfont{TeX Gyre Termes}}{\setmainfont{Latin Modern Roman}}
-\IfFontExistsTF{TeX Gyre Heros}
-  {\setsansfont{TeX Gyre Heros}}{\setsansfont{Latin Modern Sans}}
-\setmonofont{Latin Modern Mono}[
+% Prefer the official Word fonts when installed. An explicit fontset wins.
+\ifgmcm@autofonts
+  \IfFontExistsTF{SimSun}{%
+    % SimSun has no italic face; keep Chinese text upright as required.
+    \setCJKmainfont{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
+    \setCJKfamilyfont{zhsong}{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
+  }{\ClassWarningNoLine{gmcm2026}{SimSun unavailable; using FandolSong}}
+  \IfFontExistsTF{SimHei}{%
+    \setCJKsansfont{SimHei}
+    \setCJKfamilyfont{zhhei}{SimHei}
+  }{\ClassWarningNoLine{gmcm2026}{SimHei unavailable; using FandolHei}}
+\fi
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
+  % File names also work with TinyTeX without a system fontconfig registration.
+  \IfFontExistsTF{texgyretermes-regular.otf}{%
+    \setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,
+      BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+  }{\setmainfont{lmroman10}[Extension=.otf,UprightFont=*-regular,
+      BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]}}
+\IfFontExistsTF{texgyreheros-regular.otf}{%
+  \setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,
+    BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+}{\setsansfont{lmsans10}[Extension=.otf,UprightFont=*-regular,
+    BoldFont=*-bold,ItalicFont=*-oblique,BoldItalicFont=*-boldoblique]}
+\setmonofont{lmmono10-regular.otf}[
   Scale=MatchLowercase,AutoFakeBold=1.5]
-% The supplied 2025 front matter uses these decorative fonts. Do not bundle
+% Attachment 3 uses these decorative fonts. Do not bundle
 % proprietary fonts; document the portable fallbacks instead.
 \IfFontExistsTF{STXinwei}{%
   \newCJKfontfamily\gmcmcontestfont{STXinwei}%
@@ -102,7 +131,7 @@
 \newcommand{\codefile}[2][]{\lstinputlisting[#1]{#2}}
 \renewcommand{\lstlistingname}{代码}
 \lstset{
-  basicstyle=\small\ttfamily,keywordstyle=\bfseries,
+  basicstyle=\normalsize\ttfamily\songti,keywordstyle=\bfseries,
   commentstyle=\color{black!60},stringstyle=\color{black},
   numbers=left,numberstyle=\scriptsize\color{black!60},
   numbersep=8pt,xleftmargin=2em,
@@ -133,7 +162,47 @@
 \newcommand{\gmcmsetup}[1]{\setkeys{gmcm}{#1}}
 \newcommand{\gmcm@contest}{“华为杯”\gmcm@edition 中国研究生数学建模竞赛}
 \AtBeginDocument{%
+  \ifgmcm@toc
+    \ClassWarningNoLine{gmcm2026}{withtoc is for internal drafts only;
+      the 2026 rules require the body immediately after the abstract}%
+  \fi
   \hypersetup{pdftitle={\@title},pdfauthor={},pdfsubject={},pdfkeywords={}}}
+% Coordinates reproduce Attachment 3's cover structure. The logos are extracted
+% from its original embedded images, including its crop of the university logo.
+\newcommand{\gmcm@nativecover}{%
+  \IfFileExists{official/logos.pdf}{}{%
+    \ClassError{gmcm2026}{Official logo asset missing: official/logos.pdf}%
+      {Restore official/logos.pdf from the template distribution.}}
+  \begin{tikzpicture}[remember picture,overlay]
+    \begin{scope}[shift={(current page.north west)},x=1mm,y=-1mm,
+      every node/.style={inner sep=0pt,outer sep=0pt}]
+      \node[anchor=north] at (105,32)
+        {\includegraphics[width=122mm]{official/logos.pdf}};
+      \node at (105,79) {\gmcmcontestfont\zihao{-2} 中国研究生创新实践系列大赛};
+      \node at (105,94) {\gmcmcontestfont\zihao{2} “华为杯”\gmcm@edition 中国研究生};
+      \node at (105,110) {\gmcmcontestfont\zihao{2} 数学建模竞赛};
+      \node[anchor=west] at (33.3,144) {\songti\bfseries\zihao{-2} 学\quad 校};
+      \node[anchor=west] at (34.9,164) {\songti\bfseries\zihao{-2} 参赛队号};
+      \node[anchor=west] at (34.9,187) {\songti\bfseries\zihao{-2} 队员姓名};
+      \node[text width=109mm,align=center] at (120,143)
+        {\songti\zihao{3}\gmcm@school};
+      \node[text width=109mm,align=center] at (120,163)
+        {\songti\zihao{3}\gmcm@team};
+      \node[anchor=west,text width=110mm] at (65.8,176)
+        {\songti\zihao{-2} 1.\quad\gmcm@membera};
+      \node[anchor=west,text width=110mm] at (65.8,187.5)
+        {\songti\zihao{-2} 2.\quad\gmcm@memberb};
+      \node[anchor=west,text width=110mm] at (65.8,199)
+        {\songti\zihao{-2} 3.\quad\gmcm@memberc};
+      \draw[line width=1.5bp] (31.4,149.1) -- (178.7,149.1);
+      \draw[line width=1.5bp] (31.4,169.1) -- (178.7,169.1);
+      \draw[line width=1bp] (63.9,180.6) -- (178.7,180.6);
+      \draw[line width=1bp] (63.9,192.1) -- (178.7,192.1);
+      \draw[line width=1.5bp] (63.9,203.7) -- (178.7,203.7);
+    \end{scope}
+  \end{tikzpicture}%
+  \null\clearpage
+}
 \renewcommand{\maketitle}{%
   \ifgmcm@cover
     \hypersetup{pageanchor=false}
@@ -141,30 +210,7 @@
     \thispagestyle{empty}
     \pdfbookmark[0]{参赛信息封面}{gmcm.cover}
     \ifx\gmcm@coverpdf\@empty
-    \begin{center}
-      \vspace*{12mm}
-      {\zihao{2}\heiti \gmcm@year\par}
-      \vspace{10mm}
-      {\zihao{2}\heiti “华为杯”\gmcm@edition\par}
-      \vspace{3mm}
-      {\zihao{1}\heiti 中国研究生数学建模竞赛\par}
-      \vspace{20mm}
-      {\zihao{2}\heiti 参赛论文\par}
-      \vspace{20mm}
-      \begingroup
-      \zihao{4}
-      \renewcommand{\arraystretch}{2.1}
-      \begin{tabularx}{0.84\textwidth}{@{}lX@{}}
-        学校 & \gmcm@school\\ \cmidrule(l){2-2}
-        参赛队号 & \gmcm@team\\ \cmidrule(l){2-2}
-        选择题号 & \gmcm@problem\\ \cmidrule(l){2-2}
-        队员姓名 & 1.\quad \gmcm@membera\\ \cmidrule(l){2-2}
-                 & 2.\quad \gmcm@memberb\\ \cmidrule(l){2-2}
-                 & 3.\quad \gmcm@memberc\\ \cmidrule(l){2-2}
-      \end{tabularx}
-      \endgroup
-    \end{center}
-    \clearpage
+      \gmcm@nativecover
     \else
       % Import a filled, original official A4 cover; never recreate its logos.
       \IfFileExists{\gmcm@coverpdf}{%
@@ -177,13 +223,14 @@
   \hypersetup{pageanchor=true}
   \pagenumbering{arabic}
   \pagestyle{plain}
+  \vspace*{10mm}
   \begin{center}
     {\gmcmcontestfont\zihao{-2} 中国研究生创新实践系列大赛\par}
-    \vspace{2mm}
+    \vspace{5mm}
     {\gmcmcontestfont\zihao{2} “华为杯”\gmcm@edition 中国研究生\par
-      数学建模竞赛\par}
+      \vspace{3mm}数学建模竞赛\par}
   \end{center}
-  \vspace{4mm}
+  \vspace{8mm}
   \noindent\begin{tabularx}{\textwidth}{@{}l>{\centering\arraybackslash}X@{}}
     {\gmcmfrontfont\zihao{-2} 题\quad 目：} &
     {\heiti\zihao{3}\@title}\\\cmidrule{2-2}
@@ -194,7 +241,13 @@
   \begin{center}\zihao{-2}\gmcmfrontfont 摘\quad 要：\end{center}
   \begingroup\setlength{\parindent}{2em}
   \noindent\hspace*{\parindent}\ignorespaces
-}{\par\endgroup\clearpage}
+}{\par\endgroup
+  % End the page first, so material pending in the page builder is counted.
+  \clearpage
+  \ifnum\value{page}>3\relax
+    \ClassWarningNoLine{gmcm2026}{Abstract exceeds two pages;
+      the 2026 rules recommend generally no more than two pages}%
+  \fi}
 \newcommand{\keywords}[1]{%
   \par\medskip\noindent{\gmcmfrontfont\zihao{-2} 关键词：}#1\par}
 \newcommand{\maketoc}{%

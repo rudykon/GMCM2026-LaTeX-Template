@@ -1,6 +1,6 @@
 %% SPDX-License-Identifier: MIT
 %% Independently written, small BibTeX style for the THREE reference categories
-%% in the 2025 GMCM rules: book, journal article, and web resource.
+%% in Attachment 2 of the 2026 GMCM rules: book, journal article, web resource.
 %% No SORT: numbering follows first citation. Not a general GB/T 7714 style.
 ENTRY
   { author editor title edition address publisher year pages

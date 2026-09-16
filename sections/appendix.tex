@@ -1,10 +1,52 @@
-\section{Python 源程序}
-\label{app:python}
-下列程序仅依赖 Python 标准库，运行后输出与\tabref{tab:data}一致的结果。
-编译论文时只排版源代码，不执行程序。
-\codefile[language=Python,caption={线性拟合示例},label={lst:python}]{code/fit_demo.py}
+\section{复现文件与运行方法}
+\label{app:reproduce}
+正文全部数值来源于 \texttt{code/nsga2\_demo.py} 的实际运行。
+完整源程序随论文源码提供；本文附录节选配料与响应计算部分，
+不把未展示的算法实现视为外部黑箱。文件用途如下：
+\begin{itemize}
+  \item \texttt{code/nsga2\_demo.py}：模型评价、约束 NSGA-II、随机基线、扰动检验与结果导出。
+  \item \texttt{data/optimization\_results.json}：参数、软件版本、前沿、参考集、运行汇总、扰动结果与检查记录。
+  \item \texttt{data/pareto\_front.csv}：主运行全部候选的决策、材料质量及目标值。
+  \item \texttt{data/run\_summary.csv}：十次独立运行的评价预算及主要指标。
+  \item \texttt{scripts/prepare\_paper.py}：从结果文件生成正文数值、表格及三组 PDF/PNG 图。
+\end{itemize}
 
-\section{MATLAB 源程序}
-\label{app:matlab}
-此版本使用相同数据，便于比较两种语言的实现。
-\codefile[language=Matlab,caption={MATLAB 线性拟合示例},label={lst:matlab}]{code/fit_demo.m}
+在项目根目录执行以下命令。数值计算依赖 NumPy，绘图依赖 Matplotlib；
+排版依赖 XeLaTeX、BibTeX 和模板所需字体。初次结果使用
+Python 3.13.5 与 NumPy 1.26.4，随机数生成器为 PCG64。
+跨软件版本或数值后端运行时，浮点近似与排序平局可能影响最后若干位；
+应保留本次输出的软件版本，并重新生成图表，避免混用不同运行的数值。
+
+\begin{lstlisting}[language=bash,caption={结果复现与论文编译命令}]
+python code/nsga2_demo.py --check
+python scripts/prepare_paper.py
+latexmk main.tex
+latexmk anonymous.tex
+\end{lstlisting}
+
+第一条命令执行五次优化和五次随机基线，并额外重放主种子以检查确定性；
+重放计算不计入报告的算法预算。第二条命令统一更新正文引用的数值与绘图，
+防止表格和图形沿用旧结果。普通编译直接使用仓库附带的输出文件，不执行 Python。
+\texttt{anonymous.tex} 仅省略含学校、队号和姓名的封面，正文与主文件保持一致。
+此演示未包含任何实际参赛数据，具体依赖和边界说明另见 \texttt{docs/DEMO.md}。
+
+\clearpage
+\section{材料与响应计算程序节选}
+\label{app:python}
+下面节选核心质量与目标计算。所有系数都是正文列出的合成设定；
+后续约束排序、遗传算子和统计过程见随附的完整源文件。
+\codefile[language=Python,firstline=45,lastline=69,
+  caption={绝对体积配料、碳排成本与合成响应计算},
+  label={lst:evaluate}]{code/nsga2_demo.py}
+
+\section{结果核对要点}
+程序对已知支配关系和拥挤距离样例进行检查，随后验证主前沿的变量边界、
+可行性、两两非支配关系和体积闭合。确定性重放使用相同种子与完整算法参数，
+不是只复算某一个代表配合比。
+核对论文时应先确认前沿来自相同结果文件，再检查单位与显示精度。
+表中舍入后的配料仅供阅读；可行性判断、百分比变化和图形生成一律使用数据文件中的完整精度。
+
+文献用于支持多目标算法、低碳材料研究背景和环境核算边界的讨论，
+不为本文的意面性能函数、材料价格或碳因子提供实测背书。
+将来替换为真实试验数据时，应同步更新假设、响应拟合、误差评估及结论，
+不能只替换表中的几组结果。

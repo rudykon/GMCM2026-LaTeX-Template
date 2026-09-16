@@ -23,6 +23,13 @@
 /config.local.tex
 /official/cover.pdf
 
+# Local authentication and agent state.
+/github_token.json
+/.env
+/.env.*
+/.agents/
+/.codex/
+
 # Editor / OS / Python files.
 .DS_Store
 Thumbs.db

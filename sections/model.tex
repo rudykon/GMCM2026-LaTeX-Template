@@ -1,52 +1,210 @@
-\section{模型建立与求解}
+\section{配合比模型与目标函数}
 \label{sec:model}
-\subsection{模型定义}
-一元线性模型写为
+\subsection{决策变量与材料用量}
+以 $1\,\mathrm{m^3}$ 模型拌合物为计算基准，取
 \begin{equation}
-  \widehat y_i=\beta_0+\beta_1x_i,\qquad i=1,\ldots,n.
-  \label{eq:linear}
+  \boldsymbol{x}=(B,s,r,P)^{\mathsf T},\qquad
+  \begin{cases}
+    300\leq B\leq460,\\
+    0\leq s\leq0.55,\\
+    0.32\leq r\leq0.52,\\
+    0\leq P\leq15.
+  \end{cases}
+  \label{eq:bounds}
 \end{equation}
-用最小二乘法估计参数\citep[44--47]{hastie2009}：
+$B$ 为胶凝材料总质量，$s$ 为其中矿渣的质量比例，$r$ 为有效水胶比，
+$P$ 为处理后干意面的质量。$B$ 和 $P$ 的单位均为 $\mathrm{kg/m^3}$。
+这些区间用于构造有界演示问题，不是规范限值或工程建议。
+意面不计入胶凝材料，因而增加 $P$ 不会改变水胶比分母。
+水泥、矿渣与总加水量分别为
 \begin{equation}
-  \min_{\beta_0,\beta_1}
-  \sum_{i=1}^{n}\bigl(y_i-\beta_0-\beta_1x_i\bigr)^2.
-  \label{eq:objective}
+  C=(1-s)B,\qquad S=sB,\qquad W=rB+aP,\qquad a=0.8.
+  \label{eq:mass}
 \end{equation}
-目标函数中的变量、约束和求解精度均应在正文中解释。
-涉及更一般的约束优化问题时，需明确目标函数、变量及约束\citep[127--129]{boyd2004}。
+这里 $aP$ 是简化的补偿吸水量，$a$ 的单位为 $\mathrm{kg/kg}$；
+假设这部分水被添加物吸收，不参与有效水胶比计算。该设定只用于区分总水与有效水，
+未描述吸水动力学、释水过程或体积膨胀。
 
-\subsection{求解步骤}
+固定含气体积为 $0.02\,\mathrm{m^3}$，粗骨料体积为 $0.38\,\mathrm{m^3}$，
+则粗骨料质量 $G=1026\,\mathrm{kg}$。余下体积由细砂补足：
+\begin{equation}
+  A=2650\left(1-0.02-0.38-
+  \frac{C}{3150}-\frac{S}{2900}-\frac{W}{1000}-\frac{P}{1350}\right).
+  \label{eq:volume}
+\end{equation}
+各分母为演示密度，单位为 $\mathrm{kg/m^3}$。上述绝对体积关系同时计入干添加物和补偿水，
+采用组分体积可加的理想化近似。其意义在于保证比较对象具有相同模型体积，
+避免通过少配材料使碳排与成本同时下降。真实材料的表观密度、孔隙水和干湿状态
+需要采用相互一致的试验定义，不能直接沿用本式中的数值。
+
+\subsection{碳排放与成本核算}
+令材料索引 $i\in\{C,S,W,A,G,P\}$，其质量、单位碳排因子和单位价格依次为
+$m_i,e_i,c_i$。定义模型边界内的碳排放和成本：
+\begin{equation}
+  E(\boldsymbol{x})=\sum_i e_im_i,\qquad
+  C_{\mathrm{cost}}(\boldsymbol{x})=\sum_i c_im_i.
+  \label{eq:environment-cost}
+\end{equation}
+$E$ 的单位为 $\mathrm{kg\,CO_2e/m^3}$，$C_{\mathrm{cost}}$ 的单位为元/$\mathrm{m^3}$。
+\tabref{tab:factors}中的所有数值均由演示情景设定，未从文献或供应商数据库中标定。
+
+\begin{table}[htbp]
+  \centering
+  \caption{材料核算参数（全部为合成情景设定）}
+  \label{tab:factors}
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    材料 & 密度/(kg/m$^3$) & $e_i$/(kg CO$_2$e/kg) & $c_i$/(元/kg)\\
+    \midrule
+    水泥 & 3150 & 0.86000 & 0.500\\
+    矿渣 & 2900 & 0.12000 & 0.300\\
+    水 & 1000 & 0.00035 & 0.004\\
+    细砂 & 2650 & 0.00500 & 0.090\\
+    粗骨料 & 2700 & 0.00400 & 0.075\\
+    处理后干意面 & 1350 & 0.10000 & 0.060\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+对意面采用简化的废弃物切断分配：食品原生产负担不进入本情景，收集、清洗、干燥、粉碎等
+处理负担由 $e_P$ 统一代表，不另给负的处置抵扣。由此得到的结论依赖这一分配设定。
+若改用经济分配、质量分配，或把运输与避免处置收益纳入边界，必须重算目标函数。
+混凝土环境评价的功能单位与系统边界会影响比较结论\citep{heede2012}，
+因此这里的 $E$ 仅表示限定边界内的演示指标，不能解释为完整生命周期排放。
+
+该模型也不预设添加意面必然减碳。在其他变量固定时，增加一单位 $P$ 会减少细砂质量
+$2650(0.8/1000+1/1350)$，但需要增加补偿水和处理负担。基准情景下有
+\begin{equation}
+  \frac{\partial E}{\partial P}
+  =0.1+0.00035\times0.8
+   -0.005\times2650\left(\frac{0.8}{1000}+\frac{1}{1350}\right)>0.
+  \label{eq:pasta-carbon}
+\end{equation}
+因而废弃物再利用与降低本边界碳排并不等价；二者是否相容，应由完整的目标与约束判断。
+
+\subsection{假设性能响应与可行域}
+本案例未提供强度、流变或耐久性试验。为使优化问题可重复运行，直接定义下列合成响应，
+不把它们称为经验拟合、试验预测模型或经过验证的材料定律：
 \begin{align}
-  \widehat\beta_1 &=
-  \frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}
-       {\sum_{i=1}^{n}(x_i-\bar{x})^2},\label{eq:slope}\\
-  \widehat\beta_0 &= \bar{y}-\widehat\beta_1\bar{x}.
-  \label{eq:intercept}
+  F(\boldsymbol{x})&=68+0.045(B-360)-120(r-0.38)
+                    -20s-P-0.03P^2,\label{eq:strength}\\
+  H(\boldsymbol{x})&=160+800(r-0.38)-60s-1.5P
+                    +0.1(B-360).\label{eq:slump}
 \end{align}
-式\eqref{eq:slope}的分母必须大于零。求解过程见\algorithmref{alg:fit}，
-对应的 Python 与 MATLAB 程序位于附录。
+$F$ 的单位为 MPa，$H$ 的单位为 mm，各系数的量纲由相应变量确定。
+模型将较高有效水胶比设定为强度代价，将添加物设定为强度与流动性的负担，
+意在构造需要取舍的优化情景，而不是证明这些作用的真实方向或幅度。
+特别是矿渣在不同龄期、养护条件下的作用并不能由式\eqref{eq:strength}概括。
+
+除变量边界外，规定
+\begin{equation}
+  F\geq40,\quad 140\leq H\leq220,\quad
+  140\leq W\leq220,\quad 500\leq A\leq1000.
+  \label{eq:constraints}
+\end{equation}
+强度下限 $40\,\mathrm{MPa}$ 是本演示另行选取的阈值，与题目中的案例编号“42”无关。
+砂量约束排除不合理的体积分配，水量与坍落度约束限制计算配合比的搜索区域。
+这些条件只定义数学可行性，满足它们不代表材料通过结构安全、耐久性或环境适用性验证。
+
+为了消除不同约束违反量的量纲差异，使用按预设尺度归一化的总违反度
+\begin{equation}
+  \begin{aligned}
+  v(\boldsymbol{x})={}&\frac{[40-F]_+}{40}
+  +\frac{[140-H]_++[H-220]_+}{80}\\
+  &+\frac{[140-W]_++[W-220]_+}{80}
+  +\frac{[500-A]_++[A-1000]_+}{500},
+  \end{aligned}
+  \label{eq:violation}
+\end{equation}
+其中 $[z]_+=\max(z,0)$。变量边界由遗传算子的有界实现保证，
+式\eqref{eq:violation}用于对其余约束进行排序。程序保留原始性能值及违反度，
+不把不可行候选伪装成低碳可行解。
+
+\subsection{多目标优化问题}
+优化问题写为
+\begin{equation}
+  \min_{\boldsymbol{x}\in\Omega}
+  \boldsymbol{f}(\boldsymbol{x})=
+  \bigl(E(\boldsymbol{x}),C_{\mathrm{cost}}(\boldsymbol{x}),-F(\boldsymbol{x})\bigr),
+  \label{eq:multiobjective}
+\end{equation}
+其中 $\Omega$ 由式\eqref{eq:bounds}与式\eqref{eq:constraints}共同确定。
+将强度写成负值，是为统一最小化方向。成本与碳排可能同向变化，
+但它们并非相同指标；即使二者高度相关，也不应在没有分析的情况下删除其中一个。
+强度目标使模型不仅寻找刚好达到阈值的方案，也保留以更高资源投入换取强度余量的选择。
+由于性能函数并无实测支撑，本文不将最大化 $F$ 解释为提高真实服役可靠度。
+
+\section{NSGA-II求解与方案选择}
+\label{sec:algorithm}
+\subsection{约束支配与非支配排序}
+若两个候选均可行，当 $\boldsymbol{f}(\boldsymbol{x})$ 在所有分量上不劣于
+$\boldsymbol{f}(\boldsymbol{y})$，且至少一个分量严格更小时，称 $\boldsymbol{x}$ 支配
+$\boldsymbol{y}$。含约束时采用三条规则：可行解优于不可行解；
+两个不可行解中总违反度较小者优先；两个可行解按普通 Pareto 支配关系比较。
+违反度相同的不可行候选之间不再用目标函数强行构造支配关系。
+
+NSGA-II通过非支配排序得到逐层前沿，再通过拥挤距离保留目标空间中的分散性\citep{deb2002}。
+在同一前沿中，对第 $j$ 个目标排序，内部候选的拥挤距离增量为
+\begin{equation}
+  d_i^{(j)}=
+  \frac{f_j^{(i+1)}-f_j^{(i-1)}}{f_j^{\max}-f_j^{\min}}.
+  \label{eq:crowding}
+\end{equation}
+边界候选优先保留；若某目标在该前沿内为常数，则跳过该目标的归一化项，避免除零。
+拥挤距离只在同一等级内用于保留多样性，并不表示候选的工程优劣。
+
+\subsection{遗传算子与精英保留}
+每代从当前种群进行二元锦标赛：先比较非支配等级，等级相同再比较拥挤距离，
+仍相同则随机打破平局。连续变量采用有界模拟二进制交叉和多项式变异。
+交叉产生的新值限制在变量区间内，变异对每个变量独立作用。
+父代与子代合并后形成两倍规模的候选集，按前沿逐层装入下一代；
+最后一层装不下时，按拥挤距离由大到小截取。
+该步骤实现精英保留，但不意味着有限代数下找到了全局 Pareto 前沿。
 
 \begin{algorithm}[htbp]
-  \caption{一元线性模型的最小二乘估计}
-  \label{alg:fit}
+  \caption{带约束支配的 NSGA-II 配合比优化}
+  \label{alg:nsga}
   \begin{algorithmic}[1]
-    \Require 观测点 $(x_i,y_i)_{i=1}^{n}$，且输入具有非零方差
-    \Ensure 参数 $\widehat\beta_0,\widehat\beta_1$ 和拟合值 $\widehat y$
-    \State 计算 $\bar{x}$、$\bar{y}$
-    \State 根据式\eqref{eq:slope}计算 $\widehat\beta_1$
-    \State 根据式\eqref{eq:intercept}计算 $\widehat\beta_0$
-    \For{$i=1,\ldots,n$}
-      \State $\widehat y_i\gets\widehat\beta_0+\widehat\beta_1x_i$
+    \Require 变量区间、合成响应、核算因子、种群数 $N$、迭代数 $T$、随机种子
+    \Ensure 最终可行非支配集合及间隔记录
+    \State 在变量区间内采样 $N$ 个候选，评价并记录初始状态
+    \For{$t=1,\ldots,T$}
+      \State 计算父代的非支配等级与拥挤距离
+      \State 进行锦标赛选择、有界交叉和变异，产生 $N$ 个子代
+      \State 评价子代并与父代合并
+      \State 按约束支配关系分层，按等级和拥挤距离保留 $N$ 个候选
+      \State 每隔 10 代及末代记录可行候选数和最低碳排
     \EndFor
-    \State \Return $\widehat\beta_0,\widehat\beta_1,\widehat y$
+    \State 提取最终种群内的可行非支配候选，去除重复解
+    \State \Return 候选集、运行参数和计算记录
   \end{algorithmic}
 \end{algorithm}
 
-\subsection{性质说明}
-\begin{theorem}
-若输入的样本方差非零，则目标函数\eqref{eq:objective}存在唯一的最小二乘解。
-\end{theorem}
-\begin{proof}
-令设计矩阵的两列分别为常数列与输入列。非零样本方差使两列线性无关，
-因此其 Gram 矩阵正定，二次目标函数严格凸，最小值唯一。
-\end{proof}
+本文采用统一评价预算比较优化算法和随机搜索。每次优化包括初始种群和 $T$ 代子代，
+总评价次数为 $N(T+1)$；随机基线在相同变量边界内评价同样数量的候选，
+随后保留其可行非支配集合。评价次数统计包含不可行候选，避免因只统计成功样本而偏向某个方法。
+多次运行使用独立种子，报告差异而不只挑选最有利的一次。
+
+\subsection{折中方案与比较口径}
+在主运行得到的可行非支配集合 $\mathcal{P}$ 上，对三目标分别作极差归一化：
+\begin{equation}
+  z_j(\boldsymbol{x})=
+  \frac{f_j(\boldsymbol{x})-\min_{\boldsymbol{y}\in\mathcal{P}}f_j(\boldsymbol{y})}
+       {\max_{\boldsymbol{y}\in\mathcal{P}}f_j(\boldsymbol{y})-
+        \min_{\boldsymbol{y}\in\mathcal{P}}f_j(\boldsymbol{y})}.
+  \label{eq:normalize}
+\end{equation}
+若分母为零，该分量置零。取等权理想点距离最小的候选为展示用折中方案：
+\begin{equation}
+  \boldsymbol{x}^{\star}=\arg\min_{\boldsymbol{x}\in\mathcal{P}}
+  \left[\frac{1}{3}\sum_{j=1}^{3}z_j(\boldsymbol{x})^2\right]^{1/2}.
+  \label{eq:compromise}
+\end{equation}
+这一规则只是显式的偏好设定，不是唯一最优决策。极差取决于当前候选集合，
+新候选进入后，折中方案可能发生改变。因此同时保留最低碳排、最低成本和最高合成强度方案，
+并公开完整前沿，使读者可以用其他权重重算选择。
+
+参考方案固定为 $(B,s,r,P)=(380,0.15,0.42,0)$，用于说明变化方向。
+相对碳排变化按 $(E_{\mathrm{ref}}-E)/E_{\mathrm{ref}}$ 计算，
+成本同理；强度另外列出绝对数值和变化量，不把强度损失隐藏在减碳百分比中。
+该参考配合比本身也是演示设定，并不代表现行工业平均水平。

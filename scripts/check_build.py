@@ -1,8 +1,9 @@
 """Check compiled template outputs; not a full anonymity/content audit."""
-from math import isclose, sqrt
+from math import isclose
+import hashlib
+import json
 from pathlib import Path
 import re
-import runpy
 import subprocess
 
 from pypdf import PdfReader
@@ -14,16 +15,36 @@ def normalized(text):
 
 def main():
     root = Path(__file__).resolve().parents[1]
-    fit = runpy.run_path(str(root / "code/fit_demo.py"))["fit_line"]
-    intercept, slope, fitted, rmse = fit(
-        [1, 2, 3, 4, 5], [1.9, 4.1, 5.8, 8.2, 10.0]
+    data_path = root / "data/optimization_results.json"
+    data = json.loads(data_path.read_text())
+    assert data["model"]["all_response_coefficients_and_factors_are_assumed"]
+    digest = hashlib.sha256(data_path.read_bytes()).hexdigest()
+    assert digest in (root / "data/paper_values.tex").read_text(), (
+        "Paper values are stale; run python scripts/prepare_paper.py"
     )
-    assert isclose(intercept, -0.09, abs_tol=1e-12)
-    assert isclose(slope, 2.03, abs_tol=1e-12)
-    assert isclose(rmse, sqrt(91 / 5000), abs_tol=1e-12)
-    assert all(isclose(a, b, abs_tol=1e-12) for a, b in zip(
-        fitted, [1.94, 3.97, 6.00, 8.03, 10.06]
-    ))
+    # Check the serialized physical/accounting quantities independently of
+    # the optimization implementation; a unit/order error must not reach PDF.
+    model = data["model"]
+    front = data["main_pareto_front"]
+    objectives = []
+    for row in front + [data["reference_mix"]]:
+        masses = {m: row[m + "_kg_m3"] for m in model["densities_kg_m3"]}
+        volume = model["air_volume_m3"] + sum(
+            masses[m] / rho for m, rho in model["densities_kg_m3"].items())
+        assert isclose(volume, 1.0, abs_tol=1e-12)
+        for key, factor in [("carbon_kgCO2e_m3", "carbon_factors_kgCO2e_kg"),
+                            ("cost_CNY_m3", "cost_factors_CNY_kg")]:
+            assert isclose(row[key], sum(masses[m] * v for m, v in model[factor].items()), abs_tol=1e-9)
+        assert row["feasible"] and min(row["constraint_margins"].values()) >= -1e-9
+    for row in front:
+        objectives.append((row["carbon_kgCO2e_m3"], row["cost_CNY_m3"], -row["strength_MPa"]))
+    for i, a in enumerate(objectives):
+        assert not any(all(x <= y for x, y in zip(b, a)) and any(x < y for x, y in zip(b, a))
+                       for k, b in enumerate(objectives) if k != i), "Stored front contains a dominated row"
+    ids = {row["solution_id"] for row in front}
+    assert all(row["solution_id"] in ids for row in data["selected_solutions"].values())
+    assert len(data["run_summary"]) == 10
+    assert all(row["objective_evaluations"] == 8080 for row in data["run_summary"])
 
     readers = {name: PdfReader(root / (name + ".pdf"))
                for name in ("main", "anonymous")}
@@ -70,7 +91,11 @@ def main():
     assert contents["main"][1:] == contents["anonymous"], (
         "Body pages or numbering differ between the two entry points"
     )
-    assert "参赛论文" in contents["main"][0]
+    cover = contents["main"][0]
+    for marker in ("第二十三届", "学校", "参赛队号", "队员姓名"):
+        assert marker in cover, "Missing official cover field: " + marker
+    for marker in ("参赛论文", "选择题号"):
+        assert marker not in cover, "Obsolete cover field: " + marker
     anon = "".join(contents["anonymous"])
     for marker in ("请填写学校名称", "请填写参赛队号", "请填写队员"):
         assert marker not in anon, "Cover field leaked: " + marker
@@ -80,7 +105,7 @@ def main():
     for number, page in enumerate(contents["anonymous"], 1):
         assert page.endswith(str(number)), f"Wrong footer on page {number}"
     print("PASS: A4 pages, matching body pages, empty author metadata,")
-    print("      resolved references, no overflow, reproducible sample.")
+    print("      resolved references, no overflow, consistent synthetic results.")
     print("Pages:", {name: len(r.pages) for name, r in readers.items()})
 
 
