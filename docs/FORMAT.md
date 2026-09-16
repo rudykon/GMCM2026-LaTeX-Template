@@ -126,13 +126,20 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 
 ## 目录、附录与引用
 
-目录默认显示三级标题，并收录参考文献、附录及附录小节。使用 `latexmk` 编译会自动更新目录页码；如需关闭目录，写成 `\documentclass[bwprint,notoc]{gmcm2026}`。`withtoc` 选项仍可显式开启目录。
+目录默认显示一、二、三级标题，并收录参考文献、附录及附录小节。正文使用不带星号的标题命令，即可自动编号并进入目录：
+
+```latex
+\section{模型建立与求解} % 一级标题
+\subsection{优化模型} % 二级标题
+\subsubsection{目标函数} % 三级标题
+```
+
+带星号的标题（如 `\subsection*{优化模型}`）不会自动进入目录。使用 `latexmk` 编译会自动更新目录页码；如需关闭目录，写成 `\documentclass[bwprint,notoc]{gmcm2026}`。`withtoc` 选项仍可显式开启目录。
 
 附录样式参考所提供的 2025 年 A 题论文《多层协同优化的神经网络处理器核内调度算法研究》（中国石油大学（华东））第 60 页的程序附录，即 PDF 文件第 61 页：一级标题居中，采用“附录 A”编号；小节左对齐，采用“A.1”编号；代码为浅灰背景、细边框、无行号，支持自动换行和跨页。模板保留一段简短程序示例，代码内容未取自参考论文。
 
 在 `\appendix` 之后，使用 `\section{源程序}` 和 `\subsection{目标函数计算}` 自动生成上述标题。增加另一组附录时可先写 `\clearpage` 再写 `\section{补充材料}`。附录中的 `lstlisting` 或 `\codefile` 自动使用该代码样式；使用 `colorprint` 文档类选项可开启彩色语法高亮。
 
-正文使用 `\section`、`\subsection` 和 `\subsubsection`。
 公式用 `\label` 与 `\eqref`；图片、表格、算法用 `\figref`、`\tabref`、`\algorithmref`。
 表题在表上，图题在图下。计数器按节重置，附录编号形如 A.1。
 

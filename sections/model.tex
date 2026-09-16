@@ -1,5 +1,7 @@
 \section{模型建立与求解}
 \label{sec:model}
+\subsection{优化模型}
+\subsubsection{目标函数}
 以 $1\,\mathrm{m^3}$ 拌合物为计算基准，建立双目标模型：
 \begin{equation}
   \min_{\boldsymbol{x}}\bigl(E(\boldsymbol{x}),C(\boldsymbol{x})\bigr),
@@ -7,9 +9,13 @@
   C(\boldsymbol{x})=\sum_i c_i x_i.
   \label{eq:objectives}
 \end{equation}
-其中 $E$ 为碳排放，$C$ 为成本；可行域需满足体积守恒、强度下限及材料用量边界。
+其中 $E$ 为碳排放，$C$ 为成本。
+
+\subsubsection{约束条件}
+可行域需满足体积守恒、强度下限及材料用量边界。
 实际计算前，应补充响应函数、约束表达式和参数来源。
 
+\subsection{求解方法}
 采用 NSGA-II 搜索非支配方案\citep{deb2002}，记录种群规模、迭代次数与随机种子。
 基本流程见图~\ref{fig:framework}。
 \begin{figure}[htbp]
