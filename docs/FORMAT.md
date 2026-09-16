@@ -131,7 +131,7 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 目录默认显示一、二、三级标题，并收录参考文献、附录及附录小节。正文使用不带星号的标题命令，即可自动编号并进入目录：
 
 ```latex
-\section{模型建立与求解} % 一级标题
+\section{问题一的建模与求解} % 一级标题
 \subsection{优化模型} % 二级标题
 \subsubsection{目标函数} % 三级标题
 ```
@@ -150,7 +150,7 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 表题在表上，图题在图下。计数器按节重置，附录编号形如 A.1。
 
 二、三级标题使用加粗宋体；`theorem`、`lemma`、`definition` 环境的名称、编号及可选名称加粗，正文使用楷体。例如 `\begin{theorem}[支配关系的传递性] ... \end{theorem}`。
-算法示例见 `sections/model.tex`，使用 `algorithm` 与 `algorithmic` 环境，按顶部横线、标题分隔线、底部横线排版。示例通过 `minipage` 将标题、横线和内容整体设为正文宽度的 86% 并居中，可修改 `0.86\linewidth` 调整；外层浮动容器不生成图号，算法仍独立编号并收录到算法目录。`\Require`、`\Ensure` 分别生成加粗的“输入：”“输出：”标签，`\State`、`\For` 等命令编写伪代码。
+算法示例见 `sections/problem1.tex`，使用 `algorithm` 与 `algorithmic` 环境，按顶部横线、标题分隔线、底部横线排版。示例通过 `minipage` 将标题、横线和内容整体设为正文宽度的 86% 并居中，可修改 `0.86\linewidth` 调整；外层浮动容器不生成图号，算法仍独立编号并收录到算法目录。`\Require`、`\Ensure` 分别生成加粗的“输入：”“输出：”标签，`\State`、`\For` 等命令编写伪代码。
 
 参考文献标题由文献环境自动生成，不要再手工添加同名章节。
 `gmcm-numerical.bst` 支持：
@@ -169,6 +169,18 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 引用公开资料（包括网上、博客资料）须同时在正文和参考文献中注明，引用程序须注明来源。修改文献后使用 `latexmk` 自动执行 XeLaTeX / BibTeX 编译链。
 
 ## 示例与替换
+
+正文按以下七章组织，`main.tex` 按此顺序载入对应文件：
+
+| 章节 | 文件 |
+| --- | --- |
+| 1 问题重述 | `sections/problem.tex` |
+| 2 问题分析 | `sections/analysis.tex` |
+| 3 模型假设与符号说明 | `sections/assumptions.tex` |
+| 4 问题一的建模与求解 | `sections/problem1.tex` |
+| 5 问题二的建模与求解 | `sections/problem2.tex` |
+| 6 问题三的建模与求解 | `sections/problem3.tex` |
+| 7 模型评价 | `sections/evaluation.tex` |
 
 正文为简短写作模板，保留公式、流程图、三线表、文献引用与代码示例，正文结果用“待填”占位。附录中的少量合成数据用于核对示例代码输出。
 `figures/example-plot.pdf` 为自制的合成数据静态插图，仅展示图片排版，替换方法见 [插图说明](../figures/README.md)。数据表和程序片段直接写在 LaTeX 附录中，项目不包含独立实验工程或数据集文件。
