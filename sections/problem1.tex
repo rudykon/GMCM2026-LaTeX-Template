@@ -16,14 +16,17 @@
 实际计算前，应补充响应函数、约束表达式和参数来源。
 
 \subsection{求解方法}
+\subsubsection{算法原理}
 采用 NSGA-II 搜索非支配方案\citep{deb2002}，记录种群规模、迭代次数与随机种子。
-基本流程见图~\ref{fig:framework}，三线表伪代码见算法~\ref{alg:nsga2}。
-伪代码仅展示求解框架，具体算子与约束处理需按实际问题补充。
 当两个目标均最小化时，“支配”指各目标均不劣且至少一个严格更优。
 \begin{theorem}[支配关系的传递性]
   若方案 $\boldsymbol{x}$ 支配 $\boldsymbol{y}$，且 $\boldsymbol{y}$ 支配
   $\boldsymbol{z}$，则 $\boldsymbol{x}$ 支配 $\boldsymbol{z}$。
 \end{theorem}
+
+\subsubsection{求解流程}
+基本流程见图~\ref{fig:framework}，三线表伪代码见算法~\ref{alg:nsga2}。
+伪代码仅展示求解框架，具体算子与约束处理需按实际问题补充。
 \begin{figure}[htbp]
   \centering
   \input{figures/framework}
