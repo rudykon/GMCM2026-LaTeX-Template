@@ -188,12 +188,16 @@
         {\songti\zihao{3}\gmcm@school};
       \node[text width=109mm,align=center] at (120,163)
         {\songti\zihao{3}\gmcm@team};
-      \node[anchor=west,text width=110mm] at (65.8,176)
-        {\songti\zihao{-2} 1.\quad\gmcm@membera};
-      \node[anchor=west,text width=110mm] at (65.8,187.5)
-        {\songti\zihao{-2} 2.\quad\gmcm@memberb};
-      \node[anchor=west,text width=110mm] at (65.8,199)
-        {\songti\zihao{-2} 3.\quad\gmcm@memberc};
+      \node[anchor=west] at (65.8,176) {\songti\zihao{-2} 1.};
+      \node[anchor=west] at (65.8,187.5) {\songti\zihao{-2} 2.};
+      \node[anchor=west] at (65.8,199) {\songti\zihao{-2} 3.};
+      % Center names on their 63.9--178.7 mm rules; keep row numbers separate.
+      \node at (121.3,176)
+        {\songti\zihao{-2}\gmcm@membera};
+      \node at (121.3,187.5)
+        {\songti\zihao{-2}\gmcm@memberb};
+      \node at (121.3,199)
+        {\songti\zihao{-2}\gmcm@memberc};
       \draw[line width=1.5bp] (31.4,149.1) -- (178.7,149.1);
       \draw[line width=1.5bp] (31.4,169.1) -- (178.7,169.1);
       \draw[line width=1bp] (63.9,180.6) -- (178.7,180.6);
