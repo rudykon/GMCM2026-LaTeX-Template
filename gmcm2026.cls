@@ -108,7 +108,7 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 % Dotted leaders also connect top-level headings to their page numbers.
-\newcommand*{\gmcm@tocsectionsep}{1.0em}
+\newcommand*{\gmcm@tocsectionsep}{0.5em}
 \renewcommand*\l@section[2]{%
   \ifnum\c@tocdepth>\z@
     \addpenalty\@secpenalty
