@@ -31,20 +31,27 @@
   \label{fig:framework}
 \end{figure}
 
-\begin{algorithm}[!htb]
-  \caption{NSGA-II 求解框架（伪代码示例）}
-  \label{alg:nsga2}
-  \begin{algorithmic}[1]
-    \Require 种群规模 $N$，最大迭代次数 $T$，可行域 $\Omega$
-    \Ensure 最终种群的第一非支配前沿
-    \State 初始化可行种群 $P_0$，计算目标值 $(E,C)$
-    \State 对 $P_0$ 作非支配排序，计算各前沿的拥挤距离
-    \For{$t=0,\ldots,T-1$}
-      \State 按非支配等级与拥挤距离选择父代，交叉、变异生成 $Q_t$
-      \State 修复不可行解，计算 $Q_t$ 的目标值
-      \State 对 $P_t\cup Q_t$ 作非支配排序，计算各前沿的拥挤距离
-      \State 按等级选入前沿，超额时按拥挤距离降序截取，留 $N$ 个解为 $P_{t+1}$
-    \EndFor
-    \State \Return $P_T$ 中的第一非支配前沿
-  \end{algorithmic}
-\end{algorithm}
+% Float the complete narrow algorithm, including its title and three rules.
+\begin{figure}[!htb]
+  \centering
+  \begin{minipage}{0.86\linewidth}
+    \setlength{\intextsep}{0pt}
+    \begin{algorithm}[H]
+      \caption{NSGA-II 求解框架（伪代码示例）}
+      \label{alg:nsga2}
+      \begin{algorithmic}[1]
+        \Require 种群规模 $N$，最大迭代次数 $T$，可行域 $\Omega$
+        \Ensure 最终种群的第一非支配前沿
+        \State 初始化可行种群 $P_0$，计算目标值 $(E,C)$
+        \State 对 $P_0$ 作非支配排序，计算各前沿的拥挤距离
+        \For{$t=0,\ldots,T-1$}
+          \State 按非支配等级与拥挤距离选择父代，交叉、变异生成 $Q_t$
+          \State 修复不可行解，计算 $Q_t$ 的目标值
+          \State 对 $P_t\cup Q_t$ 作非支配排序，计算各前沿的拥挤距离
+          \State 按等级选入前沿，超额时按拥挤距离降序截取，留 $N$ 个解为 $P_{t+1}$
+        \EndFor
+        \State \Return $P_T$ 中的第一非支配前沿
+      \end{algorithmic}
+    \end{algorithm}
+  \end{minipage}
+\end{figure}

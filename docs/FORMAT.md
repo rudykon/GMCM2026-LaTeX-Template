@@ -150,7 +150,7 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 表题在表上，图题在图下。计数器按节重置，附录编号形如 A.1。
 
 二、三级标题使用加粗宋体；`theorem`、`lemma`、`definition` 环境的名称、编号及可选名称加粗，正文使用楷体。例如 `\begin{theorem}[支配关系的传递性] ... \end{theorem}`。
-算法示例见 `sections/model.tex`，使用 `algorithm` 与 `algorithmic` 环境，按顶部横线、标题分隔线、底部横线排版；`\Require`、`\Ensure` 分别标注输入与输出，`\State`、`\For` 等命令编写伪代码。
+算法示例见 `sections/model.tex`，使用 `algorithm` 与 `algorithmic` 环境，按顶部横线、标题分隔线、底部横线排版。示例通过 `minipage` 将标题、横线和内容整体设为正文宽度的 86% 并居中，可修改 `0.86\linewidth` 调整；外层浮动容器不生成图号，算法仍独立编号并收录到算法目录。`\Require`、`\Ensure` 分别生成加粗的“输入：”“输出：”标签，`\State`、`\For` 等命令编写伪代码。
 
 参考文献标题由文献环境自动生成，不要再手工添加同名章节。
 `gmcm-numerical.bst` 支持：

@@ -122,8 +122,8 @@
 \providecommand{\theHalgorithm}{}
 \renewcommand{\theHalgorithm}{\theHsection.\arabic{algorithm}}
 \floatname{algorithm}{算法}
-\renewcommand{\algorithmicrequire}{输入：}
-\renewcommand{\algorithmicensure}{输出：}
+\renewcommand{\algorithmicrequire}{\textbf{输入：}}
+\renewcommand{\algorithmicensure}{\textbf{输出：}}
 \newtheoremstyle{gmcm}{0.6em}{0.6em}{\normalfont\kaishu}{}%
   {\normalfont\songti\bfseries}{。}{0.5em}%
   {\thmname{#1}\thmnumber{ #2}\thmnote{（#3）}}
