@@ -1,12 +1,12 @@
-% Vector example; replaced automatically by framework.pdf or framework.png.
+% Editable vector example, included directly by sections/model.tex.
 \begin{tikzpicture}[
   stage/.style={draw=black!65,rounded corners=2pt,align=center,
     minimum width=38mm,minimum height=13mm,font=\normalsize},
   >={Stealth[length=2mm]}
 ]
-  \node[stage] (data) {数据检查\\范围与异常值};
-  \node[stage,right=8mm of data] (model) {模型估计\\最小二乘法};
-  \node[stage,right=8mm of model] (check) {结果检验\\误差与残差};
+  \node[stage] (data) {整理数据\\定义目标与约束};
+  \node[stage,right=8mm of data] (model) {NSGA-II 搜索\\生成候选方案};
+  \node[stage,right=8mm of model] (check) {比较方案\\检验结果稳定性};
   \draw[->] (data) -- (model);
   \draw[->] (model) -- (check);
 \end{tikzpicture}

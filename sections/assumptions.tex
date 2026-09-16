@@ -1,47 +1,5 @@
-\section{模型假设}
+\section{模型假设与符号说明}
 \label{sec:assumptions}
-
-为明确合成情景的适用范围，作如下假设。
-\begin{enumerate}
-  \item 各组分充分混合，采用固定密度进行绝对体积核算；每立方米拌合物的含气体积固定为 $0.02\,\mathrm{m^3}$，粗骨料体积固定为 $0.38\,\mathrm{m^3}$。模型不描述颗粒堆积、体积收缩与含气量波动。
-  \item 胶凝材料仅由水泥和矿渣组成。干添加物不计入胶凝材料质量，其体积参与配料守恒；不假定其具有胶凝活性，也不把其加入量折算为水泥替代量。
-  \item 添加物按完全吸收指定补偿水量处理，有效拌合水为 $rB$，总水量取 $W=rB+0.8P$。系数 $0.8$ 是演示用吸水补偿系数，并非实际材料的吸水率测定结果。
-  \item 强度和坍落度由假设响应式给出，适用范围限于预设变量区间。固定养护及拌合条件，不讨论龄期、温湿度、外加剂与耐久性作用；响应约束不能推导结构安全或长期耐久性结论。
-  \item 各材料单位碳排放和成本参数在给定情景内保持不变，添加物预处理投入并入其单位因子。不计拌合能耗、运输等边界外过程，不设置负碳排放或避免处置收益，避免重复计算环境效益。
-  \item 优化阶段将响应与核算参数视为确定量，其变化在敏感性分析中检验。算法输出为有限搜索获得的近似 Pareto 解集，不据此宣称已证明全局最优。
-\end{enumerate}
-
-\section{符号说明}
-\label{sec:symbols}
-用量与排放、成本均以 $1\,\mathrm{m^3}$ 模型拌合物为基准。主要符号见表~\ref{tab:symbols}，其余局部符号在首次出现时解释。
-
-\begingroup
-\renewcommand{\arraystretch}{1.0}
-\begin{longtable}{@{}p{0.19\textwidth}p{0.52\textwidth}p{0.21\textwidth}@{}}
-  \caption{主要符号说明}\label{tab:symbols}\\
-  \toprule 符号 & 含义 & 单位\\ \midrule
-  \endfirsthead
-  \multicolumn{3}{c}{表~\thetable\ （续）}\\
-  \toprule 符号 & 含义 & 单位\\ \midrule
-  \endhead
-  \midrule\multicolumn{3}{r}{续下页}\\
-  \endfoot
-  \bottomrule
-  \endlastfoot
-  $\boldsymbol{x}$ & 决策向量 $(B,s,r,P)$ & --\\
-  $B$ & 胶凝材料总用量 & $\mathrm{kg/m^3}$\\
-  $s,r$ & 矿渣质量比例、有效水胶比 & --\\
-  $P$ & 干添加物用量 & $\mathrm{kg/m^3}$\\
-  $C,S$ & 水泥、矿渣用量 & $\mathrm{kg/m^3}$\\
-  $W$ & 包含吸水补偿的总水量 & $\mathrm{kg/m^3}$\\
-  $A,G$ & 细骨料、粗骨料用量 & $\mathrm{kg/m^3}$\\
-  $\rho_i$ & 第 $i$ 类材料的密度 & $\mathrm{kg/m^3}$\\
-  $V_a$ & 单位拌合物中的含气体积 & $\mathrm{m^3}$\\
-  $F,H$ & 假设强度、坍落度响应 & $\mathrm{MPa}$、$\mathrm{mm}$\\
-  $E$ & 给定核算边界内的碳排放 & $\mathrm{kg\,CO_2e/m^3}$\\
-  $C_{\mathrm{cost}}$ & 给定核算边界内的成本 & 元$/\mathrm{m^3}$\\
-  $e_i$ & 材料单位碳排放因子 & $\mathrm{kg\,CO_2e/kg}$\\
-  $c_i$ & 材料单位成本 & 元$/\mathrm{kg}$\\
-  $\mathcal{P}$ & 搜索得到的可行非支配解集 & --\\
-\end{longtable}
-\endgroup
+假设各组分均匀混合、体积可加，单位碳排因子与价格保持不变。
+记 $x_i$ 为第 $i$ 种材料的用量（kg/m$^3$），$e_i$、$c_i$ 分别为单位碳排因子和价格，
+$F(\boldsymbol{x})$ 为强度响应。假设依据及参数应按实际问题填写。

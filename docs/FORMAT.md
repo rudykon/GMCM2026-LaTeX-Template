@@ -58,9 +58,11 @@
 
 ## 示例与替换
 
-正文已扩展为 NSGA-II 低碳配合比学术演示，全部响应、因子与结果均属于合成情景。
-运行 `python code/nsga2_demo.py --check` 复算优化与对照，再运行
-`python scripts/prepare_paper.py` 更新图表和正文数值。模型、依赖与结果解释见 [DEMO.md](DEMO.md)。
+正文为简短写作模板，保留公式、流程图、三线表、文献引用与代码示例，结果用“待填”占位。
+原 NSGA-II 合成数据演示作为可选资源保留，不参与默认编译。
+运行 `python code/nsga2_demo.py --check` 可复算优化与对照，再运行
+`python scripts/prepare_paper.py` 生成独立演示图表和数值文件；这些输出不会自动写入短模板。
+模型、依赖与结果解释见 [DEMO.md](DEMO.md)。
 原有 `code/fit_demo.py`、`code/fit_demo.m` 仅作为历史排版示例保留，不再被论文引用。
 
 正式写作时应按实际题目和数据重新建立模型，更新摘要、图表、程序、文献与结论。源程序通过 listings 排版，不在 LaTeX 编译期间执行。

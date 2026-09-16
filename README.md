@@ -3,20 +3,20 @@
 <h1>🏆 GMCM2026 LaTeX Template</h1>
 
 <p><strong>2026「华为杯」第二十三届中国研究生数学建模竞赛</strong></p>
-<p>从论文排版到数值复现，让模型、代码与图表保持一致。</p>
+<p>简短、可替换的论文模板，保留封面与常用排版示例。</p>
 
 <p>
   <a href="https://github.com/rudykon/GMCM2026-LaTeX-Template/actions/workflows/latex.yml"><img src="https://github.com/rudykon/GMCM2026-LaTeX-Template/actions/workflows/latex.yml/badge.svg" alt="Compile LaTeX"></a>
   <img src="https://img.shields.io/badge/Engine-XeLaTeX-2563EB" alt="Engine: XeLaTeX">
-  <img src="https://img.shields.io/badge/Demo-NSGA--II-0F766E" alt="Demo: NSGA-II">
+  <img src="https://img.shields.io/badge/Content-Short_Template-0F766E" alt="Content: Short Template">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 </p>
 
 <p>
-  <a href="docs/preview.pdf">📄 论文预览</a> ·
+  <a href="docs/preview.pdf">📄 模板预览</a> ·
   <a href="https://github.com/rudykon/GMCM2026-LaTeX-Template/archive/refs/heads/main.zip">📦 下载源码</a> ·
   <a href="#quick-start">🚀 快速开始</a> ·
-  <a href="docs/DEMO.md">🧪 复现说明</a>
+  <a href="docs/DEMO.md">🧪 可选演示</a>
 </p>
 
 </div>
@@ -25,13 +25,14 @@
 
 ## ✨ 模板一览
 
-| 写作与排版 | 数值与复现 |
+| 功能 | 说明 |
 | --- | --- |
-| **2026 格式适配**：依据当届附件 2、附件 3 核对 | **完整学术演示**：问题分析、模型、求解、结果与局限 |
-| **原生封面**：四个官方 Logo，参赛信息集中填写 | **可运行 NSGA-II**：约束支配、非支配排序与精英保留 |
-| **中文字体适配**：优先宋体、黑体，提供缺失时的替代方案 | **同预算对照**：五个随机种子与均匀随机搜索 |
-| **常用论文元素**：公式、三线表、文献引用与代码附录 | **图表自动生成**：Pareto、迭代历史与敏感性分析 |
-| **两个编译入口**：完整论文与内部审阅稿 | **GitHub Actions**：自动编译两个入口并检查输出 |
+| 📐 **2026 格式适配** | 依据当届附件 2、附件 3 核对字号、行距与页码 |
+| 🏫 **原生封面** | 四个官方 Logo，题目与参赛信息集中填写 |
+| 📝 **简短正文** | 摘要、问题、假设、模型、结果与结论，按实际赛题替换 |
+| 🧩 **排版示例** | 公式、表格、流程图、文献引用与短代码附录 |
+| 🔤 **中文字体适配** | 优先宋体、黑体，提供缺失时的替代方案 |
+| ⚙️ **两个编译入口** | 带封面版本与内部审阅稿，支持 GitHub Actions |
 
 **最近一次格式核对：2026-09-16。** 字号、单倍行距、摘要起始页码和参考文献顺序按当届附件设置，具体对应关系见 [格式核对记录](docs/FORMAT-AUDIT.md)。
 
@@ -49,11 +50,11 @@
 latexmk main.tex
 ~~~
 
-输出 **`main.pdf`**，可直接阅读或检查排版。普通编译使用随附图表，**无需运行 Python**。
+输出 **`main.pdf`**，可直接阅读或检查排版。默认正文仅保留简短示例，**无需运行 Python 或优化程序**。
 
 | 使用场景 | 编译命令 | 输出 |
 | --- | --- | --- |
-| 完整论文，保留信息封面 | `latexmk main.tex` | `main.pdf` |
+| 模板正文，保留信息封面 | `latexmk main.tex` | `main.pdf` |
 | 内部审阅，省略信息封面 | `latexmk anonymous.tex` | `anonymous.pdf` |
 
 正式稿使用 `main.tex`。封面不编号，摘要从第 1 页开始，后续页码连续居中；默认不生成目录，摘要下一页直接开始正文。
@@ -64,58 +65,25 @@ latexmk main.tex
 
 模板优先使用已安装的宋体、黑体；缺少时回退到 Fandol。华文新魏、隶书也有替代字体，替代字形与官方 Word 字体不完全相同，提交前应检查生成的 PDF。
 
-## 🧪 学术演示：模型、代码与图表
+## 📝 从示例开始写作
 
-当前示例题目：
+当前示例题目为：
 
 > **基于NSGA-II的过期意大利面-42号混凝土低碳配合比优化**
 
-全部材料参数、响应系数、碳排因子、成本与计算结果均为**合成情景**，没有使用真实材料试验数据。“42号”仅为案例编号，不是强度等级；该内容是独立构造的学术演示，不对应官方赛题。
+正文本身压缩为一页，仅保留一个公式、一个流程图和一张“待填”结果表；该题目由本项目构造，不对应官方赛题。带封面的预览共 5 页，另含摘要、参考文献与短代码附录。使用时替换 [config.tex](config.tex) 中的题目，以及 [sections/](sections/) 中的示例文字、参数和结果。
 
-| 建模环节 | 演示内容 |
-| --- | --- |
-| 决策变量 | 胶凝材料总量、矿渣比例、有效水胶比、干添加物用量 |
-| 三个目标 | 降低碳排放、降低材料成本、提高合成强度响应 |
-| 约束条件 | 绝对体积守恒、强度、坍落度、总水量与砂量 |
-| 方案选择 | Pareto 候选集、极端方案与等权折中方案 |
-| 结果检验 | 五次运行、同预算随机对照、固定方案扰动分析 |
+## 🧪 可选：运行 NSGA-II 演示
 
-<p align="center">
-  <a href="figures/pareto.pdf"><img src="figures/pareto.png" width="760" alt="合成情景下的 Pareto 候选集，以碳排和强度为坐标、成本为颜色，标出基准与代表方案"></a>
-</p>
-
-<p align="center"><em>合成情景下的 Pareto 候选集 · 点击图片查看矢量 PDF</em></p>
-
-<details>
-<summary>📊 展开查看运行对照与敏感性分析</summary>
-
-![主运行最低碳排变化与五次运行 IGD 对照](figures/convergence.png)
-
-IGD 使用各次运行合并得到的联合经验参考集，不能解释为与真实最优前沿的距离。
-
-![固定方案的强度扰动与意面预处理碳因子敏感性](figures/sensitivity.png)
-
-敏感性分析固定名义配合比，不代表扰动情景下重新优化后的结果。完整解释见 [学术演示说明](docs/DEMO.md)。
-
-</details>
-
-当前折中方案的干意面用量约为 **`0.027 kg/m³`**，接近允许下界。这一结果反映的是假设响应与目标之间的取舍，不能解释为实际材料的有效掺量或工程建议。
-
-碳排与成本以每立方米模型拌合物为基准，核算材料生产及假想添加物预处理；不包含拌合能耗、运输、施工、服役、拆除和避免处置收益。模型边界、参数与结果均在 [DEMO.md](docs/DEMO.md) 中说明。
-
-### 🔁 重新计算与生成图表
-
-在项目根目录依次运行：
+仓库另保留完整的合成情景优化程序、五次运行对照及图表，供需要数值示例时参考。**这些结果不自动插入默认模板。** 模型边界、结果解释和复现步骤见 [演示说明](docs/DEMO.md)。
 
 ~~~bash
 python -m pip install numpy matplotlib
 python code/nsga2_demo.py --check
 python scripts/prepare_paper.py
-latexmk main.tex
-latexmk anonymous.tex
 ~~~
 
-优化程序使用 **NumPy**，图表生成另需 **Matplotlib**。`--check` 执行五次优化和五次同预算随机对照，并检查约束、非支配性、体积闭合及主运行的确定性重放；第二个脚本统一生成正文数值、LaTeX 表格与 PDF/PNG 图。
+上述命令更新 `data/` 和 `figures/` 中的演示资源；若需在论文中使用，可自行引用相应表格、数值宏和图片。
 
 ## ⚙️ 常用设置
 
@@ -128,7 +96,7 @@ latexmk anonymous.tex
 | 省略封面／显示目录 | 内部稿使用 `anonymous`／`withtoc` 类选项 |
 | 链接颜色 | 默认 `bwprint`；彩色链接使用 `colorprint` |
 | 显式选择中文字体集 | `fontset=fandol`；已安装对应字体时可用 `fontset=windows` |
-| 生成图表／插入图片 | 修改 [绘图脚本](scripts/prepare_paper.py) 后重新生成；使用 `\includegraphics` 插入图片 |
+| 流程图／插入图片 | 修改 [流程图示例](figures/framework.tex)；使用 `\includegraphics` 插入自备图片 |
 | 添加文献 | 更新 [reference.bib](reference.bib)，正文使用 `\citep{文献键}` |
 | 引用书籍页段 | 填写实际引用范围，例如 `\citep[页码]{文献键}` |
 | 排版源程序 | 将代码放入 [code/](code/)，在附录用 `\codefile` 引入 |
@@ -194,14 +162,14 @@ xelatex -no-shell-escape main.tex
 
 | 文件 / 目录 | 用途 |
 | --- | --- |
-| [main.tex](main.tex) · [anonymous.tex](anonymous.tex) | 完整论文与内部审阅稿入口 |
+| [main.tex](main.tex) · [anonymous.tex](anonymous.tex) | 带封面模板与内部审阅稿入口 |
 | [config.tex](config.tex) | 论文题目与参赛信息 |
 | [gmcm2026.cls](gmcm2026.cls) | 页面、标题、编号、封面及排版命令 |
 | [sections/](sections/) | 摘要、建模、结果、评价与附录 |
-| [figures/](figures/) | 三组数值图，提供 PDF 与 PNG |
+| [figures/](figures/) | 默认流程图示例与可选演示图表 |
 | [reference.bib](reference.bib) · [gmcm-numerical.bst](gmcm-numerical.bst) | 文献数据与书籍、期刊、网页三类著录样式 |
-| [code/](code/) | NSGA-II 程序；保留的旧通用示例 |
-| [data/](data/) | JSON、CSV、正文数值宏和表格 |
+| [code/](code/) | 可选 NSGA-II 优化程序及通用代码示例 |
+| [data/](data/) | 可选演示的 JSON、CSV、数值宏和表格 |
 | [.latexmkrc](.latexmkrc) · [build.sh](build.sh) · [build.bat](build.bat) | 编译配置与跨平台脚本 |
 | [scripts/](scripts/) | 生成图表、检查输出与重新提取 Logo |
 | [docs/](docs/) | 论文预览、格式依据、字体记录及复现说明 |
@@ -230,11 +198,11 @@ python scripts/check_bibliography.py
 python scripts/check_layout.py
 ~~~
 
-检查涵盖页面尺寸与页码、正文一致性、引用解析、数值文件一致性，以及封面、长标题、长摘要等版式场景。
+检查涵盖页面尺寸与页码、正文一致性、引用解析，以及封面、长标题、长摘要等版式场景。
 
 </details>
 
-普通编译直接使用随附图表与 `official/logos.pdf`，无需 LibreOffice 或 Python。只有重新提取 Logo 时才需 LibreOffice 和 PyMuPDF，步骤见 [资源说明](official/README.md)。
+普通编译使用 LaTeX 示例与 `official/logos.pdf`，无需 LibreOffice 或 Python。只有重新提取 Logo 时才需 LibreOffice 和 PyMuPDF，步骤见 [资源说明](official/README.md)。
 
 ## 📐 格式依据与文档
 
@@ -243,7 +211,7 @@ python scripts/check_layout.py
 - [附件 2：“华为杯”第二十三届中国研究生数学建模竞赛论文格式规范](docs/附件2：“华为杯”第二十三届中国研究生数学建模竞赛论文格式规范.docx)
 - [附件 3：“华为杯”第二十三届中国研究生数学建模竞赛论文模板](docs/附件3：“华为杯”第二十三届中国研究生数学建模竞赛论文模板.doc)
 
-附件 2 落款为 **2026 年 9 月 16 日**。明确的文字要求用于正文排版，封面与摘要结构参照附件 3；当前演示内容在正式写作时应按实际题目、数据和来源替换。
+附件 2 落款为 **2026 年 9 月 16 日**。明确的文字要求用于正文排版，封面与摘要结构参照附件 3；模板示例在正式写作时应按实际题目、数据和来源替换。
 
 | 文档 | 可以查到什么 |
 | --- | --- |
@@ -261,6 +229,6 @@ python scripts/check_layout.py
 
 <p align="center">
   <a href="#quick-start">🚀 开始写作</a> ·
-  <a href="docs/preview.pdf">📄 阅读论文</a> ·
-  <a href="docs/DEMO.md">🔁 复现实验</a>
+  <a href="docs/preview.pdf">📄 查看模板</a> ·
+  <a href="docs/DEMO.md">🧪 可选演示</a>
 </p>

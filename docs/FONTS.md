@@ -52,4 +52,4 @@ pdffonts main.pdf
 
 ## 本次验证
 
-扩展学术演示后已重新编译 `main.pdf`（16 页）与 `anonymous.pdf`（15 页），并更新 `docs/preview.pdf`。`check_build.py` 与 `check_layout.py` 均通过。PDF 中已实际嵌入 SimSun、SimHei、STXinwei、LiSu 和 Times New Roman；论文题目、一级标题、正文分别为 16、14、12 pt。编译日志无缺字、字体样式缺失或排版溢出。
+简短模板已重新编译为 `main.pdf`（5 页）与 `anonymous.pdf`（4 页），并更新 `docs/preview.pdf`。`check_build.py` 与 `check_layout.py` 均通过。PDF 中已实际嵌入 SimSun、SimHei、STXinwei、LiSu 和 Times New Roman；论文题目、一级标题、正文分别为 16、14、12 pt。编译日志无缺字、字体样式缺失或排版溢出。

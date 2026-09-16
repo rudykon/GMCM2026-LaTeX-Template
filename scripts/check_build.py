@@ -1,4 +1,5 @@
 """Check compiled template outputs; not a full anonymity/content audit."""
+import argparse
 from math import isclose
 import hashlib
 import json
@@ -13,8 +14,8 @@ def normalized(text):
     return "".join(text.split())
 
 
-def main():
-    root = Path(__file__).resolve().parents[1]
+def check_demo_results(root):
+    """Validate the optional optimization demo's saved data and TeX values."""
     data_path = root / "data/optimization_results.json"
     data = json.loads(data_path.read_text())
     assert data["model"]["all_response_coefficients_and_factors_are_assumed"]
@@ -45,6 +46,18 @@ def main():
     assert all(row["solution_id"] in ids for row in data["selected_solutions"].values())
     assert len(data["run_summary"]) == 10
     assert all(row["objective_evaluations"] == 8080 for row in data["run_summary"])
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--demo", action="store_true",
+        help="also check the optional synthetic optimization results and generated TeX values",
+    )
+    args = parser.parse_args()
+    root = Path(__file__).resolve().parents[1]
+    if args.demo:
+        check_demo_results(root)
 
     readers = {name: PdfReader(root / (name + ".pdf"))
                for name in ("main", "anonymous")}
@@ -104,8 +117,10 @@ def main():
     )
     for number, page in enumerate(contents["anonymous"], 1):
         assert page.endswith(str(number)), f"Wrong footer on page {number}"
-    print("PASS: A4 pages, matching body pages, empty author metadata,")
-    print("      resolved references, no overflow, consistent synthetic results.")
+    print("PASS: A4 pages, matching body pages, continuous page numbers,")
+    print("      empty author metadata, resolved references, no overflow.")
+    if args.demo:
+        print("PASS: Optional synthetic optimization results are consistent.")
     print("Pages:", {name: len(r.pages) for name, r in readers.items()})
 
 

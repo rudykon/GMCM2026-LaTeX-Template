@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build LaTeX numbers/tables and vector figures from the synthetic results.
 
-Run after code/nsga2_demo.py. Requires NumPy and Matplotlib only; compilation
-itself uses the generated files and never executes Python.
+Run after code/nsga2_demo.py. Requires NumPy and Matplotlib only. These optional
+demo assets are not included in the short template unless explicitly imported.
 """
 import json
 import hashlib

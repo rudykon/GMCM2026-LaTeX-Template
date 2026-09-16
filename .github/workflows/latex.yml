@@ -24,7 +24,7 @@ jobs:
         run: |
           bash build.sh
           bash build.sh anonymous
-      - name: Check pages, references and sample results
+      - name: Check pages, references and layout
         run: |
           python3 scripts/check_build.py
           python3 scripts/check_bibliography.py
