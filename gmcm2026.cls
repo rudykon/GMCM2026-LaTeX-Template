@@ -108,13 +108,15 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 % Dotted leaders also connect top-level headings to their page numbers.
+\newcommand*{\gmcm@tocsectionsep}{1.0em}
 \renewcommand*\l@section[2]{%
   \ifnum\c@tocdepth>\z@
     \addpenalty\@secpenalty
-    \addvspace{1.0em\@plus\p@}%
+    \addvspace{\gmcm@tocsectionsep}%
     \begingroup\heiti\bfseries
       \@dottedtocline{1}{0em}{1.8em}{#1}{#2}%
     \endgroup
+    \nobreak\addvspace{\gmcm@tocsectionsep}%
   \fi}
 \numberwithin{equation}{section}
 \counterwithin{figure}{section}
