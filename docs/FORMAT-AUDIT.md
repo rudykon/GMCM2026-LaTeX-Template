@@ -62,7 +62,7 @@ Logo 显示框和正、负裁剪参数取自附件内嵌图形；图形间距、
 
 ## 编译验证与边界
 
-默认正文已压缩为一页，保留一个公式、一个流程图、一张结果占位表和文献引用。带封面版本 `main.pdf` 共 5 页，内部审阅稿 `anonymous.pdf` 共 4 页，另含摘要、参考文献与短代码附录。两个入口的编译、成品、文献和版式检查均已通过：
+默认正文保持简短，保留公式、流程图、结果占位表、合成数据插图和文献引用。带封面版本 `main.pdf` 共 5 页，内部审阅稿 `anonymous.pdf` 共 4 页，含摘要、参考文献与短代码附录。两个入口的编译、成品、文献和版式检查均已通过：
 
 ```bash
 latexmk
@@ -74,7 +74,7 @@ python scripts/check_layout.py
 
 `check_build.py` 检查页面尺寸、摘要起始页码、连续页码、作者元数据、引用解析及排版溢出；`check_bibliography.py` 检查三类著录格式、引用顺序与缺少书籍页码时的提示。`check_layout.py` 使用临时文档检查原生和导入封面、四个 Logo、页边距、长题目换行、两页与超长摘要、内部稿目录，以及字体自动选择和显式选项。
 
-默认模板不再加载 `data/paper_values.tex`，也不依赖优化程序生成的结果表格和图片；完整优化演示保留为可选资源，见 [演示说明](DEMO.md)。模板字体设置为论文题目 16 pt SimHei、一级标题 14 pt SimHei、正文 12 pt SimSun；前置页使用 STXinwei 和 LiSu，西文使用 Times New Roman。带封面与无封面版本的摘要及后续内容、页码应一致；`docs/preview.pdf` 为带封面版本。
+默认模板不加载 `data/paper_values.tex` 或优化结果表格，仅引用随附的 `figures/pareto.pdf` 作为插图示例；完整优化演示保留为可选资源，见 [演示说明](DEMO.md)。模板字体设置为论文题目 16 pt SimHei、一级标题 14 pt SimHei、正文 12 pt SimSun；前置页使用 STXinwei 和 LiSu，西文使用 Times New Roman。带封面与无封面版本的摘要及后续内容、页码应一致；`docs/preview.pdf` 为带封面版本。
 
 初次编译验证了跨平台替代字体；随后已在本机安装 SimSun、SimHei、STXinwei、LiSu 和 Times New Roman，并重新通过成品与版式检查。字体均已嵌入 PDF，没有缺字、字体样式缺失或排版溢出。安装位置与来源见 [字体记录](FONTS.md)。自动检查不能证明正文完全匿名、引用充分或论文内容满足赛题要求。
 

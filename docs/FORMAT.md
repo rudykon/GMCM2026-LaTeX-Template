@@ -59,9 +59,9 @@
 ## 示例与替换
 
 正文为简短写作模板，保留公式、流程图、三线表、文献引用与代码示例，结果用“待填”占位。
-原 NSGA-II 合成数据演示作为可选资源保留，不参与默认编译。
+原 NSGA-II 合成数据演示作为可选资源保留，默认只引用随附的 Pareto 图展示插图格式。
 运行 `python code/nsga2_demo.py --check` 可复算优化与对照，再运行
-`python scripts/prepare_paper.py` 生成独立演示图表和数值文件；这些输出不会自动写入短模板。
+`python scripts/prepare_paper.py` 生成独立演示图表和数值文件；脚本不修改正文，已引用的同名图片会在下次编译时更新。
 模型、依赖与结果解释见 [DEMO.md](DEMO.md)。
 原有 `code/fit_demo.py`、`code/fit_demo.m` 仅作为历史排版示例保留，不再被论文引用。
 

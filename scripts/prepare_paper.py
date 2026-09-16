@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build LaTeX numbers/tables and vector figures from the synthetic results.
 
-Run after code/nsga2_demo.py. Requires NumPy and Matplotlib only. These optional
-demo assets are not included in the short template unless explicitly imported.
+Run after code/nsga2_demo.py. Requires NumPy and Matplotlib only. The short
+template uses the saved Pareto PDF as an illustration; other assets are optional.
 """
 import json
 import hashlib
