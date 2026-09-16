@@ -157,11 +157,12 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 
 | BibTeX 类型 | 必要字段 | 著录顺序 |
 | --- | --- | --- |
-| book | author（或 editor）、title、address、publisher、pages、year | 作者，书名，出版地：出版社，起止页码，出版年 |
-| article | author、title、journal、volume、pages、year；number 如有则填 | 作者，论文名，期刊名，卷(期)：起止页码，出版年 |
-| misc / online / webpage | author、title、url、urldate | 作者，资源标题，网址，访问日期 |
+| book | author（或 editor）、title、address、publisher、pages、year | [编号] 作者，书名，出版地：出版社，起止页码，出版年。 |
+| article | author、title、journal、volume、pages、year；number 如有则填 | [编号] 作者，论文名，杂志名，卷(期)：起止页码，出版年。 |
+| misc / online / webpage | author、title、url、urldate | [编号] 作者，资源标题，网址，访问日期。 |
 
-`edition` 可填写完整的版次文字，例如 `2nd ed.`；`urldate` 使用 `YYYY-MM-DD`。
+著录字段之间使用中文逗号，出版地与出版社、卷期号与页码之间使用中文冒号，条目以中文句号结束；中英文文献均按此格式排版。期刊的 `volume`、`number` 分别填写卷号和期号，组合为 `6(2)`，没有期号时只显示卷号。页码在 `pages` 中写为 `182--197`。
+书籍如需注明版次，`edition` 可填写 `第2版` 或 `2nd ed.`，以括号附在书名后；`urldate` 使用 `YYYY-MM-DD`。
 书籍页码应填实际引用范围，并在正文写 `\citep[实际页码]{书籍文献键}`。不要照抄其他文献的页码。
 缺少必要字段或使用未支持的类型会产生 BibTeX 警告。会议论文、学位论文等未在该简化样式中专门实现，需按当届规范扩展样式或选择合适的文献工具；不要为了消除警告将其错误归类成网页。
 

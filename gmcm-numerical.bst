@@ -2,6 +2,7 @@
 %% Independently written, small BibTeX style for the THREE reference categories
 %% in Attachment 2 of the 2026 GMCM rules: book, journal article, web resource.
 %% No SORT: numbering follows first citation. Not a general GB/T 7714 style.
+%% Use Chinese field separators and put the publication year last.
 ENTRY
   { author editor title edition address publisher year pages
     journal volume number url urldate }
@@ -19,7 +20,7 @@ FUNCTION {format.names}
     part "others" = { "et~al." 'part := } { } if$
     result empty$
       { part 'result := }
-      { result ", " * part * 'result := }
+      { result "，" * part * 'result := }
     if$
     name.index #1 + 'name.index :=
   } while$
@@ -43,7 +44,7 @@ FUNCTION {author.or.editor}
 }
 
 FUNCTION {comma.field}
-{ duplicate$ empty$ { pop$ } { ", " write$ write$ } if$ }
+{ duplicate$ empty$ { pop$ } { "，" write$ write$ } if$ }
 
 FUNCTION {start.entry}
 { newline$
@@ -53,13 +54,13 @@ FUNCTION {start.entry}
 }
 
 FUNCTION {end.entry}
-{ "." write$ newline$ }
+{ "。" write$ newline$ }
 
 FUNCTION {book}
 { start.entry
-  edition comma.field
+  edition empty$ { } { "（" write$ edition write$ "）" write$ } if$
   address "address" required comma.field
-  ": " write$ publisher "publisher" required write$
+  "：" write$ publisher "publisher" required write$
   pages "pages (the cited range)" required comma.field
   year "year" required comma.field
   end.entry
@@ -70,7 +71,7 @@ FUNCTION {article}
   journal "journal" required comma.field
   volume "volume" required comma.field
   number empty$ { } { "(" write$ number write$ ")" write$ } if$
-  ": " write$ pages "pages" required write$
+  "：" write$ pages "pages" required write$
   year "year" required comma.field
   end.entry
 }
@@ -80,7 +81,7 @@ FUNCTION {misc}
   url "url" required
   duplicate$ empty$
     { pop$ }
-    { ", \url{" write$ write$ "}" write$ }
+    { "，\url{" write$ write$ "}" write$ }
   if$
   urldate "urldate (YYYY-MM-DD)" required comma.field
   end.entry
