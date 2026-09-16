@@ -33,9 +33,7 @@
 /.agents/
 /.codex/
 
-# Editor / OS / Python files.
+# Editor / OS files.
 .DS_Store
 Thumbs.db
 *.swp
-__pycache__/
-*.pyc
