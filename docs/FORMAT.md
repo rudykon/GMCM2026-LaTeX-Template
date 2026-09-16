@@ -30,14 +30,99 @@
 
 封面和摘要页参照附件 3：系列赛事标题为 18 pt、赛事名称为 22 pt 华文新魏；摘要中的“题目”“摘要”“关键词”标签为 18 pt 隶书。本机有 `STXinwei`、`LiSu` 时使用相应字体，否则分别回退到黑体、楷体。论文题目本身仍按附件 2 使用三号黑体。正文优先使用系统宋体、黑体，缺少时采用 Fandol；拉丁字体优先 Times New Roman，缺少时采用 TeX Gyre Termes 等替代。
 
-字体文件不随仓库分发。安装字体后可用 `fc-match SimSun` 检查系统匹配，用 `pdffonts main.pdf` 检查 PDF 中实际使用和嵌入的字体。替代字体与 Word 字形不同，应检查最终 PDF。
-
 本示例按定制要求将封面三个标签等宽对齐、队员姓名居中，并将末条姓名横线延长到与参赛队号横线等长；末条横线因此比附件 3 原件更长。
 
 `main.tex` 生成封面、标题摘要页、正文、参考文献和附录。
 `anonymous.tex` 仅供内部审阅，省略封面，其余内容相同。模板的学校、队号、姓名字段不会写入摘要、页眉或 PDF 作者元数据。
 
 此选项不扫描和删除正文、图片、附件或源代码中的身份信息。附件 2 要求摘要“篇幅一般不超过两页，且无需译成英文”；摘要应包括建模思路、主要方法、模型、结果与结论、创新点和关键词。超过两页时模板会提醒，篇幅过长应自行精简，内容不会被截断。
+
+## 字体下载与安装
+
+仓库不分发字体文件。缺少原字体时可先安装免费替代字体完成编译；要接近附件 3 和本仓库预览的字形，则安装下表中的原字体。
+
+### 免费字体：下载后即可编译
+
+| 字体包 | 下载入口 | 模板中的用途 |
+| --- | --- | --- |
+| Fandol | [下载 ZIP](https://mirrors.ctan.org/fonts/fandol.zip) · [CTAN 说明](https://ctan.org/pkg/fandol) | 宋体、黑体缺失时使用 FandolSong、FandolHei；提供楷体回退 |
+| TeX Gyre | [下载 ZIP](https://mirrors.ctan.org/fonts/tex-gyre.zip) · [CTAN 说明](https://ctan.org/pkg/tex-gyre) | Times New Roman 缺失时使用 Termes，并提供西文无衬线字体 Heros |
+
+使用官方 TeX Live、MacTeX 或 TinyTeX 时，优先通过包管理器下载并安装，字体会放到 TeX 可搜索的位置：
+
+```bash
+tlmgr install fandol tex-gyre
+latexmk main.tex
+```
+
+MiKTeX 用户在 MiKTeX Console 的 Packages 中搜索并安装 `fandol`、`tex-gyre`。通过 Linux 发行版安装的 TeX 应使用该发行版的包管理器补齐中文与 TeX Gyre 字体包，或按下文手动安装，避免混用 `tlmgr` 管理系统文件。Overleaf 的完整 TeX Live 环境通常已包含这两个包，选择 XeLaTeX 即可。
+
+若 TeX Live / MacTeX / TinyTeX 需要手动安装，下载 ZIP 并解压，运行 `kpsewhich -var-value=TEXMFHOME` 查询个人 TeX 目录。在该目录下新建 `fonts/opentype/fandol/`，放入 Fandol 的全套 `.otf` 文件；新建 `fonts/opentype/tex-gyre/`，至少放入 `texgyretermes-*.otf` 和 `texgyreheros-*.otf` 的常规、粗体、斜体与粗斜体。然后检查：
+
+```bash
+kpsewhich FandolSong-Regular.otf
+kpsewhich texgyretermes-regular.otf
+```
+
+两条命令都应输出字体文件路径；若没有输出，核对目录，并以刚才查询到的个人 TeX 目录为参数运行 `mktexlsr` 后重试。仅把 ZIP 放在项目中，或仅安装到系统字体目录，不一定能让 TeX 按文件名找到这些字体。免费字体能完成排版，但不等同于附件 3 中的原字体。
+
+### 预览所用字体：官方获取途径
+
+| 字体 | 获取方式 |
+| --- | --- |
+| 宋体 `SimSun` | Windows 提供；文件通常为 `simsun.ttc`，见[微软字体说明](https://learn.microsoft.com/en-us/typography/font-list/simsun) |
+| 黑体 `SimHei` | Windows“设置 → 可选功能 → 添加功能”中安装“简体中文补充字体 / Chinese (Simplified) Supplemental Fonts”，见[微软安装说明](https://learn.microsoft.com/en-us/windows/deployment/windows-missing-fonts) |
+| 华文新魏 `STXinwei` | 微软列为 Office 提供的字体；从已有授权 Office 安装获取 `STXINWEI.ttf`，见[微软字体说明](https://learn.microsoft.com/en-us/typography/font-list/stxinwei) |
+| 隶书 `LiSu` | 使用已有授权字体文件；未找到可核实的官方独立下载入口，缺少时模板使用楷体 |
+| Times New Roman | Windows / Office 提供，包含 `times.ttf`、`timesbd.ttf`、`timesi.ttf`、`timesbi.ttf` 四个字形文件，见[微软字体说明](https://learn.microsoft.com/en-us/typography/font-list/times-new-roman) |
+
+Windows 可按 `Win + R`，输入 `ms-settings:optionalfeatures` 打开可选功能，下载补充字体需要联网。微软没有为上述原字体统一提供免费的独立下载包；其他系统可使用免费替代字体，或安装自己有权使用的原字体文件。Office 中可用的云字体不一定能被 XeLaTeX 识别，需确认字体已经安装到系统，或按下文从文件加载。
+
+### 本地安装与检查
+
+- **Windows：**解压后选中 `.ttf`、`.ttc` 或 `.otf` 字体文件，右键安装，随后重启编辑器。
+- **macOS：**双击字体文件，在“字体册”中安装，随后重新编译。
+- **Linux：**将解压后的字体复制到 `~/.local/share/fonts/gmcm2026/`，运行 `fc-cache -f`，再重新编译。例如已把所需字体集中放在项目的 `fonts/` 中：
+
+  ```bash
+  mkdir -p ~/.local/share/fonts/gmcm2026
+  find fonts -type f \( -iname '*.ttf' -o -iname '*.ttc' -o -iname '*.otf' \) -exec cp {} ~/.local/share/fonts/gmcm2026/ \;
+  fc-cache -f
+  latexmk -g main.tex
+  ```
+
+Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代字体，应核对输出中的实际字体名。安装 Poppler 工具后，用 `pdffonts main.pdf` 检查 PDF 实际使用和嵌入的字体。更换字体后需重新检查分页与封面效果。
+
+### Overleaf 或项目内加载字体
+
+使用免费替代字体时无需上传字体。若要使用自己的原字体，在项目根目录新建 `fonts/` 上传字体文件，并在 `config.local.tex` 中按文件名加载。模板会读取此配置，但不会自动扫描 `fonts/`；仅上传文件并不能保证生效。方法参考 [Overleaf 自定义字体说明](https://www.overleaf.com/learn/latex/Questions/I_have_a_custom_font_I%27d_like_to_load_to_my_document._How_can_I_do_this%3F)。
+
+以下示例假定文件名与代码完全一致，大小写也须一致。请按实际文件名修改，例如将 `SimSun.ttf` 改为 `simsun.ttc`；不要将 `.ttc` 文件改后缀冒充 `.ttf`。缺少某种字体时，删除对应的整组设置，即保留模板的自动回退。
+
+```latex
+% config.local.tex：与已有的参赛信息配置放在一起即可。
+% 宋体：同时覆盖正文与显式使用的 \songti。
+\setCJKmainfont{SimSun.ttf}[Path=fonts/,AutoFakeBold=2.5,ItalicFont=SimSun.ttf]
+\setCJKfamilyfont{zhsong}{SimSun.ttf}[Path=fonts/,AutoFakeBold=2.5,ItalicFont=SimSun.ttf]
+
+% 黑体：同时覆盖无衬线字体与 \heiti。
+\setCJKsansfont{SimHei.ttf}[Path=fonts/]
+\setCJKfamilyfont{zhhei}{SimHei.ttf}[Path=fonts/]
+
+% Times New Roman：保留四种字形。
+\setmainfont{times.ttf}[Path=fonts/,BoldFont=timesbd.ttf,
+  ItalicFont=timesi.ttf,BoldItalicFont=timesbi.ttf]
+
+% 封面赛事名称：华文新魏。
+\setCJKfamilyfont{gmcmxinwei}{STXINWEI.ttf}[Path=fonts/]
+\renewcommand{\gmcmcontestfont}{\CJKfamily{gmcmxinwei}}
+
+% 摘要页标签：隶书。
+\setCJKfamilyfont{gmcmlisu}{LiSu.ttf}[Path=fonts/]
+\renewcommand{\gmcmfrontfont}{\CJKfamily{gmcmlisu}}
+```
+
+`fonts/` 与 `config.local.tex` 已加入 Git 忽略规则，不随正常 Git 提交上传；手动打包 ZIP 时仍需自行选择文件。
 
 ## 章节与引用
 

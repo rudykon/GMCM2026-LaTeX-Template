@@ -42,11 +42,23 @@ latexmk anonymous.tex  # 省略封面，生成 anonymous.pdf
 
 示例图使用合成数据，仅展示排版。替换图片时同步修改图题和正文引用，见[插图说明](figures/README.md)。
 
+## 🔤 缺少字体
+
+字体文件不随仓库提供。缺少宋体、黑体或 Times New Roman 时，模板会自动使用免费替代字体。TeX Live / MacTeX / TinyTeX 可安装：
+
+```bash
+tlmgr install fandol tex-gyre
+```
+
+也可直接下载 [Fandol 中文字体](https://mirrors.ctan.org/fonts/fandol.zip)和 [TeX Gyre 西文字体](https://mirrors.ctan.org/fonts/tex-gyre.zip)；MiKTeX 用户在 Console 中安装同名包。
+
+要使用预览中的宋体、黑体、华文新魏、隶书和 Times New Roman，见[原字体获取、系统安装与 Overleaf 配置](docs/FORMAT.md#字体下载与安装)。免费替代字体的字形与预览有差异。
+
 ## ⚙️ 常用说明
 
 正式稿使用 `main.tex`；封面不编号，摘要从第 1 页开始，默认不生成目录。`anonymous.tex` 仅省略封面，用于内部审阅。
 
-模板优先使用宋体、黑体，缺失时自动回退；字体文件不随仓库提供。参赛信息也可写入被 Git 忽略的 `config.local.tex`。导入 Word 封面见[封面说明](official/README.md)，字体与版式细节见[格式说明](docs/FORMAT.md)。
+参赛信息也可写入被 Git 忽略的 `config.local.tex`。导入 Word 封面见[封面说明](official/README.md)，版式细节见[格式说明](docs/FORMAT.md)。
 
 ## 🤝 许可与致谢
 
