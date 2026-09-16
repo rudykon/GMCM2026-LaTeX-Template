@@ -1,7 +1,7 @@
 """Extract Attachment 3's logo row without redrawing or resampling its images.
 
 Convert the original .doc to .docx with LibreOffice first, then run:
-  python scripts/extract_official_logos.py converted.docx official/logos.pdf
+  python scripts/extract_official_logos.py converted.docx docs/official/logos.pdf
 Requires PyMuPDF for asset regeneration only, not for LaTeX compilation.
 """
 import argparse
