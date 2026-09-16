@@ -110,7 +110,7 @@
 \renewcommand*\l@section[2]{%
   \ifnum\c@tocdepth>\z@
     \addpenalty\@secpenalty
-    \addvspace{0.7em\@plus\p@}%
+    \addvspace{1.0em\@plus\p@}%
     \begingroup\bfseries
       \@dottedtocline{1}{0em}{1.8em}{#1}{#2}%
     \endgroup
