@@ -39,30 +39,49 @@ def main():
                 source.read("word/" + relationships[blip.get("{" + ns["r"] + "}embed")]),
                 float(extent.get("cx")) / 12700,
                 float(extent.get("cy")) / 12700,
-                {side: max(0, int(crop.get(side, "0"))) / 100000
+                {side: int(crop.get(side, "0")) / 100000
                  for side in ("l", "t", "r", "b")} if crop is not None else {},
             ))
     if len(images) != 4:
         raise ValueError("Expected the four official cover logos")
     # Whitespace between inline drawings in Attachment 3, in PDF points.
-    gaps = (4.75, 8.0, 4.75, 0.0)
+    gaps = (4.70, 7.90, 4.70, 0.0)
     height = max(item[2] for item in images)
     width = sum(item[1] for item in images) + sum(gaps)
     output = pymupdf.open()
     page = output.new_page(width=width, height=height)
     x = 0
     for (data, w, h, crop), gap in zip(images, gaps):
-        image_doc = pymupdf.open(stream=data)
-        image_pdf = pymupdf.open(stream=image_doc.convert_to_pdf(), filetype="pdf")
-        box = image_pdf[0].rect
-        clip = pymupdf.Rect(box.width * crop.get("l", 0),
-                            box.height * crop.get("t", 0),
-                            box.width * (1 - crop.get("r", 0)),
-                            box.height * (1 - crop.get("b", 0)))
+        # Word permits negative cropping: it adds space around the source.
+        # Use a page as the viewport so positive crops also remain exact.
+        left, top, right, bottom = (crop.get(side, 0) for side in ("l", "t", "r", "b"))
+        if left + right >= 1 or top + bottom >= 1:
+            raise ValueError("Invalid logo crop in the source document")
+        source_w, source_h = w / (1 - left - right), h / (1 - top - bottom)
+        rect = pymupdf.Rect(-left * source_w, -top * source_h,
+                            (1 - left) * source_w, (1 - top) * source_h)
+        image_pdf = pymupdf.open()
+        viewport = image_pdf.new_page(width=w, height=h)
+        if data.startswith(b"\xff\xd8"):
+            # Keep the original JPEG bitstream without recompression.
+            viewport.insert_image(rect, stream=data, keep_proportion=False)
+        else:
+            # Embed DeviceRGB pixels directly, avoiding convert_to_pdf's ICC
+            # wrapper. The second logo has an entirely opaque alpha channel;
+            # omit that redundant mask for PDF viewer compatibility.
+            pixmap = pymupdf.Pixmap(data)
+            if pixmap.alpha and all(alpha == 255 for alpha in pixmap.samples[pixmap.n - 1::pixmap.n]):
+                pixmap = pymupdf.Pixmap(pixmap, 0)
+            image_xref = viewport.insert_image(rect, pixmap=pixmap, keep_proportion=False)
+            # PyMuPDF may attach its default sRGB ICC profile even to a
+            # DeviceRGB pixmap. All three source PNGs are sRGB; express their
+            # unchanged RGB samples with the simpler PDF color space.
+            if pixmap.colorspace.n != 3:
+                raise ValueError("Expected an RGB logo in the source document")
+            image_pdf.xref_set_key(image_xref, "ColorSpace", "/DeviceRGB")
         page.show_pdf_page(pymupdf.Rect(x, height - h, x + w, height),
-                           image_pdf, 0, clip=clip, keep_proportion=False)
+                           image_pdf, 0, keep_proportion=False)
         image_pdf.close()
-        image_doc.close()
         x += w + gap
     output.set_metadata({"title": "GMCM 2026 official cover logos (Attachment 3)"})
     output.save(args.output, garbage=4, deflate=True)

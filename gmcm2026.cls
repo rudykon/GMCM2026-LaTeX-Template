@@ -176,8 +176,8 @@
   \begin{tikzpicture}[remember picture,overlay]
     \begin{scope}[shift={(current page.north west)},x=1mm,y=-1mm,
       every node/.style={inner sep=0pt,outer sep=0pt}]
-      \node[anchor=north] at (105,32)
-        {\includegraphics[width=122mm]{official/logos.pdf}};
+      \node[anchor=north west] at (43.2153,31.9267)
+        {\includegraphics{official/logos.pdf}};
       \node at (105,79) {\gmcmcontestfont\zihao{-2} 中国研究生创新实践系列大赛};
       \node at (105,94) {\gmcmcontestfont\zihao{2} “华为杯”\gmcm@edition 中国研究生};
       \node at (105,110) {\gmcmcontestfont\zihao{2} 数学建模竞赛};
@@ -195,7 +195,7 @@
       \node[anchor=west] at (65.8,176) {\songti\zihao{-2} 1.};
       \node[anchor=west] at (65.8,187.5) {\songti\zihao{-2} 2.};
       \node[anchor=west] at (65.8,199) {\songti\zihao{-2} 3.};
-      % Center names on their 63.9--178.7 mm rules; keep row numbers separate.
+      % Center names in the name column; keep row numbers separate.
       \node at (121.3,176)
         {\songti\zihao{-2}\gmcm@membera};
       \node at (121.3,187.5)
@@ -206,7 +206,7 @@
       \draw[line width=1.5bp] (31.4,169.1) -- (178.7,169.1);
       \draw[line width=1bp] (63.9,180.6) -- (178.7,180.6);
       \draw[line width=1bp] (63.9,192.1) -- (178.7,192.1);
-      \draw[line width=1.5bp] (63.9,203.7) -- (178.7,203.7);
+      \draw[line width=1.5bp] (31.4,203.7) -- (178.7,203.7);
     \end{scope}
   \end{tikzpicture}%
   \null\clearpage
