@@ -1,7 +1,7 @@
 % SPDX-License-Identifier: MIT
 % Independently implemented layout; see docs/FORMAT.md for sources.
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{gmcm2026}[2026/09/16 v1.3 GMCM 2026 template]
+\ProvidesClass{gmcm2026}[2026/09/16 v1.4 GMCM 2026 template]
 \RequirePackage{iftex}
 \RequireXeTeX
 \newif\ifgmcm@cover
@@ -101,8 +101,8 @@
 \setlist{topsep=0.4em,itemsep=0.1em,parsep=0pt,leftmargin=*}
 \ctexset{
   section={format=\centering\heiti\zihao{4},beforeskip=1.2em,afterskip=0.7em},
-  subsection={format=\songti\zihao{-4},beforeskip=0.8em,afterskip=0.4em},
-  subsubsection={format=\songti\zihao{-4},beforeskip=0.6em,afterskip=0.3em}
+  subsection={format=\songti\bfseries\zihao{-4},beforeskip=0.8em,afterskip=0.4em},
+  subsubsection={format=\songti\bfseries\zihao{-4},beforeskip=0.6em,afterskip=0.3em}
 }
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
@@ -124,8 +124,9 @@
 \floatname{algorithm}{算法}
 \renewcommand{\algorithmicrequire}{输入：}
 \renewcommand{\algorithmicensure}{输出：}
-\newtheoremstyle{gmcm}{0.6em}{0.6em}{\normalfont}{}%
-  {\normalfont}{。}{0.5em}{}
+\newtheoremstyle{gmcm}{0.6em}{0.6em}{\normalfont\kaishu}{}%
+  {\normalfont\songti\bfseries}{。}{0.5em}%
+  {\thmname{#1}\thmnumber{ #2}\thmnote{（#3）}}
 \theoremstyle{gmcm}
 \newtheorem{theorem}{定理}[section]
 \newtheorem{lemma}[theorem]{引理}
@@ -149,17 +150,17 @@
   breaklines=true,columns=fullflexible,keepspaces=true,
   showstringspaces=false,tabsize=4,captionpos=t
 }
-% Appendix code follows the supplied award-paper example: a light gray box
-% without line numbers or a separate listing caption.
+% Appendix code uses colored syntax in a light gray box, independently of
+% hyperlink colors, without line numbers or a separate listing caption.
 \lstdefinestyle{gmcmappendix}{%
   basicstyle=\small\ttfamily\songti,
   numbers=none,frame=single,framerule=0.3pt,
   backgroundcolor=\color{black!2.5},rulecolor=\color{black!25},
   framesep=4pt,xleftmargin=6pt,xrightmargin=6pt,
   aboveskip=0.8em,belowskip=0.8em,
-  keywordstyle={\ifgmcm@color\color{magenta!80!black}\else\bfseries\fi},
-  commentstyle=\color{black!55},
-  stringstyle={\ifgmcm@color\color{violet}\else\color{black!70}\fi}}
+  keywordstyle=\color{magenta!80!black},
+  commentstyle=\color{teal!60!black},
+  stringstyle=\color{violet}}
 % Identity fields are used only by the cover.
 \def\gmcm@year{2026}
 \def\gmcm@edition{第二十三届}

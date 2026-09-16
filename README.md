@@ -6,15 +6,16 @@
 
 [完整 PDF](docs/preview.pdf) · [下载源码](https://github.com/rudykon/GMCM2026-LaTeX-Template/archive/refs/heads/main.zip) · [格式说明](docs/FORMAT.md)
 
-[![封面、目录、插图与附录排版预览](docs/preview.png)](docs/preview.pdf)
+[![封面、正文与附录排版预览](docs/preview.png)](docs/preview.pdf)
 
 </div>
 
 ## 模板特点
 
 - 依据当届附件 2、3 设置封面、字体、标题和页码。
-- 提供三级目录、公式、三线表、流程图、插图、参考文献与代码附录示例。
-- 当前预览共 **6 页**，内容简短，便于直接替换。
+- 提供三级目录、公式、定理、三线表算法伪代码、流程图、插图与参考文献示例。
+- 附录含图表目录、合成结果数据与彩色代码，以 Python 为主，辅以 MATLAB。
+- 当前预览共 **8 页**，内容简短，便于直接替换。
 
 ## 🚀 快速开始
 

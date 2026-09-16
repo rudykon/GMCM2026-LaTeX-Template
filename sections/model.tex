@@ -17,10 +17,34 @@
 
 \subsection{求解方法}
 采用 NSGA-II 搜索非支配方案\citep{deb2002}，记录种群规模、迭代次数与随机种子。
-基本流程见图~\ref{fig:framework}。
+基本流程见图~\ref{fig:framework}，三线表伪代码见算法~\ref{alg:nsga2}。
+伪代码仅展示求解框架，具体算子与约束处理需按实际问题补充。
+当两个目标均最小化时，“支配”指各目标均不劣且至少一个严格更优。
+\begin{theorem}[支配关系的传递性]
+  若方案 $\boldsymbol{x}$ 支配 $\boldsymbol{y}$，且 $\boldsymbol{y}$ 支配
+  $\boldsymbol{z}$，则 $\boldsymbol{x}$ 支配 $\boldsymbol{z}$。
+\end{theorem}
 \begin{figure}[htbp]
   \centering
   \input{figures/framework}
   \caption{建模与求解流程示例}
   \label{fig:framework}
 \end{figure}
+
+\begin{algorithm}[!htb]
+  \caption{NSGA-II 求解框架（伪代码示例）}
+  \label{alg:nsga2}
+  \begin{algorithmic}[1]
+    \Require 种群规模 $N$，最大迭代次数 $T$，可行域 $\Omega$
+    \Ensure 最终种群的第一非支配前沿
+    \State 初始化可行种群 $P_0$，计算目标值 $(E,C)$
+    \State 对 $P_0$ 作非支配排序，计算各前沿的拥挤距离
+    \For{$t=0,\ldots,T-1$}
+      \State 按非支配等级与拥挤距离选择父代，交叉、变异生成 $Q_t$
+      \State 修复不可行解，计算 $Q_t$ 的目标值
+      \State 对 $P_t\cup Q_t$ 作非支配排序，计算各前沿的拥挤距离
+      \State 按等级选入前沿，超额时按拥挤距离降序截取，留 $N$ 个解为 $P_{t+1}$
+    \EndFor
+    \State \Return $P_T$ 中的第一非支配前沿
+  \end{algorithmic}
+\end{algorithm}

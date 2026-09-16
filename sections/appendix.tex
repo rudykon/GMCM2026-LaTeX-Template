@@ -1,14 +1,96 @@
-\section{源程序}
-\label{app:code}
-\subsection{目标函数计算}
-以下代码展示式~\eqref{eq:objectives}中两个目标的计算方式。
-输入应使用实际材料数据；完整求解程序可用模板的 \verb|\codefile| 命令引入。
+\section{图表目录}
+\label{app:catalog}
+\begingroup
+  \renewcommand{\listfigurename}{插图}
+  \renewcommand{\listtablename}{表格}
+  \renewcommand{\listalgorithmname}{算法}
+  \listoffigures
+  \listoftables
+  \listofalgorithms
+\endgroup
 
+\clearpage
+\section{结果数据}
+\label{app:data}
+本附录全部采用\textbf{合成数据}，仅演示数据表与程序输出的对应关系。
+示例只列出三个假想组分，未验证体积守恒与强度约束，不代表实际混凝土配合比。
+
+\subsection{输入数据}
+组分用量 $x_i$ 的单位为 kg，碳排因子和单价分别取
+$\boldsymbol{e}=(0.9,0.1,0.2)$ kg CO$_2$e/kg、
+$\boldsymbol{c}=(0.4,0.8,0.5)$ 元/kg。
+\begin{table}[htbp]
+  \centering
+  \caption{演示输入数据（合成数据）}
+  \label{tab:appendix-input}
+  \begin{tabular}{@{}crrr@{}}
+    \toprule
+    方案 & $x_1$/kg & $x_2$/kg & $x_3$/kg\\
+    \midrule
+    1 & 300 & 80 & 5\\
+    2 & 280 & 100 & 8\\
+    3 & 260 & 120 & 10\\
+    4 & 300 & 100 & 10\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{计算结果}
+按式~\eqref{eq:objectives}计算各方案的总碳排与总成本，结果见表~\ref{tab:appendix-output}。
+在两个目标均最小化的条件下，方案 1、2、3 构成第一非支配前沿；方案 4 被支配。
+\begin{table}[htbp]
+  \centering
+  \caption{目标计算与非支配筛选结果（合成数据）}
+  \label{tab:appendix-output}
+  \begin{tabular}{@{}crrc@{}}
+    \toprule
+    方案 & $E$/kg CO$_2$e & $C$/元 & 属于第一前沿\\
+    \midrule
+    1 & 279.0 & 186.5 & 是\\
+    2 & 263.6 & 196.0 & 是\\
+    3 & 248.0 & 205.0 & 是\\
+    4 & 282.0 & 205.0 & 否\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\clearpage
+\section{核心算法程序}
+\label{app:code}
+以下程序复现附录~\ref{app:data}的合成数据结果，仅展示目标计算和非支配解筛选，
+不构成完整的 NSGA-II；交叉、变异、拥挤度与约束处理等应在实际求解时补充。
+
+\subsection{Python：目标计算}
 \begin{lstlisting}[language=Python]
-def objectives(masses, carbon_factors, prices):
-    if not (len(masses) == len(carbon_factors) == len(prices)):
-        raise ValueError("Input lengths must match")
-    carbon = sum(m * e for m, e in zip(masses, carbon_factors))
-    cost = sum(m * c for m, c in zip(masses, prices))
-    return carbon, cost
+def objectives(x, e, c):
+    return tuple(sum(m * f for m, f in zip(x, factors))
+                 for factors in (e, c))
+
+X = [(300, 80, 5), (280, 100, 8),
+     (260, 120, 10), (300, 100, 10)]
+e, c = (0.9, 0.1, 0.2), (0.4, 0.8, 0.5)
+F = [objectives(x, e, c) for x in X]
+print("Objectives:", F)
+\end{lstlisting}
+
+\subsection{Python：非支配解筛选}
+以下代码接续上例，输出方案编号 \texttt{[1, 2, 3]}。
+\begin{lstlisting}[language=Python]
+def dominates(p, q):
+    return (all(a <= b for a, b in zip(p, q))
+            and any(a < b for a, b in zip(p, q)))
+
+front = [i + 1 for i, point in enumerate(F)
+         if not any(dominates(other, point) for other in F)]
+print("First front:", front)
+\end{lstlisting}
+
+\subsection{MATLAB：向量化复核}
+将各方案按行组成矩阵 \texttt{X}，传入同一组 \texttt{e}、\texttt{c}，
+所得矩阵两列依次为碳排与成本。
+\begin{lstlisting}[language=Matlab]
+function F = objectives_matlab(X, e, c)
+    % Evaluate both objectives for all candidates.
+    F = [X * e(:), X * c(:)];
+end
 \end{lstlisting}
