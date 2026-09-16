@@ -17,7 +17,7 @@
 | 华为 | `word/media/image3.jpeg` |
 | 西安交通大学 | `word/media/image4.png` |
 
-当前随附 `logos.pdf` 的 SHA-256 为 `10b275f772d02f1ac43349cf5137921b5a6f61e2b656d69accc46cee75d7866e`。原始附件的 SHA-256 见 [核对记录](../docs/FORMAT-AUDIT.md)。重新导出时 PDF 文档标识可能变化，不要求再生文件与当前文件逐字节相同。
+当前随附 `logos.pdf` 的 SHA-256 为 `10b275f772d02f1ac43349cf5137921b5a6f61e2b656d69accc46cee75d7866e`。原始附件的 SHA-256 见 [格式说明](../docs/FORMAT.md#原始附件)。重新导出时 PDF 文档标识可能变化，不要求再生文件与当前文件逐字节相同。
 
 仅在重新提取资源时，需要 LibreOffice 和 Python 的 PyMuPDF。可在项目根目录运行：
 

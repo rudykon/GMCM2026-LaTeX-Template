@@ -1,5 +1,5 @@
 % SPDX-License-Identifier: MIT
-% Independently implemented layout; see docs/UPSTREAM.md.
+% Independently implemented layout; see docs/FORMAT.md for sources.
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
 \ProvidesClass{gmcm2026}[2026/09/16 v1.2 GMCM 2026 official layout]
 \RequirePackage{iftex}
