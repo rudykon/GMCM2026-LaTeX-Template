@@ -1,9 +1,10 @@
-\section{程序示例}
+\section{源程序}
 \label{app:code}
+\subsection{目标函数计算}
 以下代码展示式~\eqref{eq:objectives}中两个目标的计算方式。
 输入应使用实际材料数据；完整求解程序可用模板的 \verb|\codefile| 命令引入。
 
-\begin{lstlisting}[language=Python,caption={碳排与成本计算示例}]
+\begin{lstlisting}[language=Python]
 def objectives(masses, carbon_factors, prices):
     if not (len(masses) == len(carbon_factors) == len(prices)):
         raise ValueError("Input lengths must match")

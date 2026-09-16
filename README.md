@@ -6,15 +6,15 @@
 
 [完整 PDF](docs/preview.pdf) · [下载源码](https://github.com/rudykon/GMCM2026-LaTeX-Template/archive/refs/heads/main.zip) · [格式说明](docs/FORMAT.md)
 
-[![封面、正文与插图排版预览](docs/preview.png)](docs/preview.pdf)
+[![封面、目录、插图与附录排版预览](docs/preview.png)](docs/preview.pdf)
 
 </div>
 
 ## 模板特点
 
 - 依据当届附件 2、3 设置封面、字体、标题和页码。
-- 提供公式、三线表、流程图、插图、参考文献与代码附录示例。
-- 当前预览共 **5 页**，内容简短，便于直接替换。
+- 提供目录、公式、三线表、流程图、插图、参考文献与代码附录示例。
+- 当前预览共 **6 页**，内容简短，便于直接替换。
 
 ## 🚀 快速开始
 
@@ -56,7 +56,7 @@ tlmgr install fandol tex-gyre
 
 ## 常用说明
 
-正式稿使用 `main.tex`；封面不编号，摘要从第 1 页开始，默认不生成目录。`anonymous.tex` 仅省略封面，用于内部审阅。
+正式稿使用 `main.tex`；封面不编号，摘要从第 1 页开始，摘要后自动生成目录，后续页码连续。若不需要目录，在文档类选项中加入 `notoc`。`anonymous.tex` 仅省略封面，用于内部审阅。
 
 参赛信息也可写入被 Git 忽略的 `config.local.tex`。导入 Word 封面见[封面说明](docs/official/README.md)，版式细节见[格式说明](docs/FORMAT.md)。
 

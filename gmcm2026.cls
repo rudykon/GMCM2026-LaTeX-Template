@@ -1,7 +1,7 @@
 % SPDX-License-Identifier: MIT
 % Independently implemented layout; see docs/FORMAT.md for sources.
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{gmcm2026}[2026/09/16 v1.2 GMCM 2026 official layout]
+\ProvidesClass{gmcm2026}[2026/09/16 v1.3 GMCM 2026 template]
 \RequirePackage{iftex}
 \RequireXeTeX
 \newif\ifgmcm@cover
@@ -9,12 +9,13 @@
 \newif\ifgmcm@color
 \newif\ifgmcm@autofonts
 \gmcm@covertrue
-\gmcm@tocfalse
+\gmcm@toctrue
 \gmcm@colorfalse
 \gmcm@autofontstrue
 \DeclareOption{anonymous}{\gmcm@coverfalse}
 \DeclareOption{withoutpreface}{\gmcm@coverfalse}
 \DeclareOption{withtoc}{\gmcm@toctrue}
+\DeclareOption{notoc}{\gmcm@tocfalse}
 \DeclareOption{bwprint}{\gmcm@colorfalse}
 \DeclareOption{colorprint}{\gmcm@colortrue}
 \DeclareOption*{%
@@ -104,7 +105,16 @@
   subsubsection={format=\songti\zihao{-4},beforeskip=0.6em,afterskip=0.3em}
 }
 \setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
+% Dotted leaders also connect top-level headings to their page numbers.
+\renewcommand*\l@section[2]{%
+  \ifnum\c@tocdepth>\z@
+    \addpenalty\@secpenalty
+    \addvspace{0.7em\@plus\p@}%
+    \begingroup\bfseries
+      \@dottedtocline{1}{0em}{1.8em}{#1}{#2}%
+    \endgroup
+  \fi}
 \numberwithin{equation}{section}
 \counterwithin{figure}{section}
 \counterwithin{table}{section}
@@ -139,6 +149,17 @@
   breaklines=true,columns=fullflexible,keepspaces=true,
   showstringspaces=false,tabsize=4,captionpos=t
 }
+% Appendix code follows the supplied award-paper example: a light gray box
+% without line numbers or a separate listing caption.
+\lstdefinestyle{gmcmappendix}{%
+  basicstyle=\small\ttfamily\songti,
+  numbers=none,frame=single,framerule=0.3pt,
+  backgroundcolor=\color{black!2.5},rulecolor=\color{black!25},
+  framesep=4pt,xleftmargin=6pt,xrightmargin=6pt,
+  aboveskip=0.8em,belowskip=0.8em,
+  keywordstyle={\ifgmcm@color\color{magenta!80!black}\else\bfseries\fi},
+  commentstyle=\color{black!55},
+  stringstyle={\ifgmcm@color\color{violet}\else\color{black!70}\fi}}
 % Identity fields are used only by the cover.
 \def\gmcm@year{2026}
 \def\gmcm@edition{第二十三届}
@@ -162,10 +183,6 @@
 \newcommand{\gmcmsetup}[1]{\setkeys{gmcm}{#1}}
 \newcommand{\gmcm@contest}{“华为杯”\gmcm@edition 中国研究生数学建模竞赛}
 \AtBeginDocument{%
-  \ifgmcm@toc
-    \ClassWarningNoLine{gmcm2026}{withtoc is for internal drafts only;
-      the 2026 rules require the body immediately after the abstract}%
-  \fi
   \hypersetup{pdftitle={\@title},pdfauthor={},pdfsubject={},pdfkeywords={}}}
 % Coordinates reproduce Attachment 3's cover structure. The logos are extracted
 % from its original embedded images, including its crop of the university logo.
@@ -262,9 +279,13 @@
   \ifgmcm@toc
     \pdfbookmark[0]{目录}{gmcm.contents}
     \tableofcontents\clearpage
-  \fi}
+  \fi
+  \bookmarksetup{startatroot}}
 \let\gmcm@originalappendix\appendix
 \renewcommand{\appendix}{%
   \clearpage\gmcm@originalappendix
-  \ctexset{section/name={附录\space,},section/number=\Alph{section}}}
+  \ctexset{section/name={附录\space,},section/number=\Alph{section},
+    section/tocline={附录\space\Alph{section}\texorpdfstring{\quad}{\space}##2},
+    subsection/numberformat=\bfseries}%
+  \lstset{style=gmcmappendix}}
 \endinput
