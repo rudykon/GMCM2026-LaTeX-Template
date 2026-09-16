@@ -146,7 +146,7 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 - **附录 B 结果数据：**保留少量明确标注的合成输入和输出，供核对程序及展示表格排版，不代表材料试验或完整配合比结果。
 - **附录 C 核心算法程序：**以 Python 展示目标计算、非支配解筛选，用简短 MATLAB 函数复核目标值；仅演示核心步骤，未实现完整 NSGA-II。示例代码未取自参考论文。
 
-在 `\appendix` 之后，用 `\section{核心算法程序}`、`\subsection{目标函数计算（Python）}` 等命令生成标题，附录之间用 `\clearpage` 分页。代码默认使用彩色关键字、字符串和注释，配浅灰背景、细边框、不显示行号，并支持自动换行和跨页。`lstlisting` 或 `\codefile` 自动应用此样式，通过 `language=Python` 或 `language=Matlab` 指定语言。文档类的 `bwprint` / `colorprint` 选项控制链接颜色，不改变附录代码的彩色样式。
+在 `\appendix` 之后，用 `\section{核心算法程序}`、`\subsection{目标函数计算（Python）}` 等命令生成标题，附录之间用 `\clearpage` 分页。代码使用深灰正文、深蓝关键字、墨绿字符串和灰蓝注释，配浅灰蓝背景与细边框，不显示行号，并支持自动换行和跨页。`lstlisting` 或 `\codefile` 自动应用此样式，通过 `language=Python` 或 `language=Matlab` 指定语言。文档类的 `bwprint` / `colorprint` 选项控制链接颜色，不改变附录代码的彩色样式。
 
 公式用 `\label` 与 `\eqref`；图片、表格、算法用 `\figref`、`\tabref`、`\algorithmref`。
 表题在表上，图题在图下。计数器按节重置，附录编号形如 A.1。

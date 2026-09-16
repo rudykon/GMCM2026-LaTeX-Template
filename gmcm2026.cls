@@ -151,17 +151,23 @@
   breaklines=true,columns=fullflexible,keepspaces=true,
   showstringspaces=false,tabsize=4,captionpos=t
 }
-% Appendix code uses colored syntax in a light gray box, independently of
-% hyperlink colors, without line numbers or a separate listing caption.
+% Muted syntax colors for appendix code on a light background.
+% Independent of hyperlink colors; no line numbers or listing caption.
+\definecolor{gmcmcodetext}{HTML}{263238}
+\definecolor{gmcmcodekeyword}{HTML}{244F7A}
+\definecolor{gmcmcodestring}{HTML}{2F6454}
+\definecolor{gmcmcodecomment}{HTML}{62717D}
+\definecolor{gmcmcodebackground}{HTML}{F5F7FA}
+\definecolor{gmcmcodeborder}{HTML}{CDD5DF}
 \lstdefinestyle{gmcmappendix}{%
-  basicstyle=\small\ttfamily\songti,
+  basicstyle=\small\ttfamily\songti\color{gmcmcodetext},
   numbers=none,frame=single,framerule=0.3pt,
-  backgroundcolor=\color{black!2.5},rulecolor=\color{black!25},
+  backgroundcolor=\color{gmcmcodebackground},rulecolor=\color{gmcmcodeborder},
   framesep=4pt,xleftmargin=6pt,xrightmargin=6pt,
   aboveskip=0.8em,belowskip=0.8em,
-  keywordstyle=\color{magenta!80!black},
-  commentstyle=\color{teal!60!black},
-  stringstyle=\color{violet}}
+  keywordstyle=\color{gmcmcodekeyword},
+  commentstyle=\color{gmcmcodecomment},
+  stringstyle=\color{gmcmcodestring}}
 % Identity fields are used only by the cover.
 \def\gmcm@year{2026}
 \def\gmcm@edition{第二十三届}
