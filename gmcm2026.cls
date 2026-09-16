@@ -181,9 +181,13 @@
       \node at (105,79) {\gmcmcontestfont\zihao{-2} 中国研究生创新实践系列大赛};
       \node at (105,94) {\gmcmcontestfont\zihao{2} “华为杯”\gmcm@edition 中国研究生};
       \node at (105,110) {\gmcmcontestfont\zihao{2} 数学建模竞赛};
-      \node[anchor=west] at (33.3,144) {\songti\bfseries\zihao{-2} 学\quad 校};
-      \node[anchor=west] at (34.9,164) {\songti\bfseries\zihao{-2} 参赛队号};
-      \node[anchor=west] at (34.9,187) {\songti\bfseries\zihao{-2} 队员姓名};
+      % Give all cover labels the same left edge and four-character width.
+      \node[anchor=west] at (34.9,144)
+        {\songti\bfseries\zihao{-2}\makebox[4em][s]{学\hfill 校}};
+      \node[anchor=west] at (34.9,164)
+        {\songti\bfseries\zihao{-2}\makebox[4em][s]{参赛队号}};
+      \node[anchor=west] at (34.9,187)
+        {\songti\bfseries\zihao{-2}\makebox[4em][s]{队员姓名}};
       \node[text width=109mm,align=center] at (120,143)
         {\songti\zihao{3}\gmcm@school};
       \node[text width=109mm,align=center] at (120,163)
