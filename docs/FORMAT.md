@@ -108,8 +108,8 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 \setCJKfamilyfont{zhsong}{SimSun.ttf}[Path=fonts/,AutoFakeBold=2.5,ItalicFont=SimSun.ttf]
 
 % 黑体：同时覆盖无衬线字体与 \heiti。
-\setCJKsansfont{SimHei.ttf}[Path=fonts/]
-\setCJKfamilyfont{zhhei}{SimHei.ttf}[Path=fonts/]
+\setCJKsansfont{SimHei.ttf}[Path=fonts/,BoldFont=SimHei.ttf]
+\setCJKfamilyfont{zhhei}{SimHei.ttf}[Path=fonts/,BoldFont=SimHei.ttf]
 
 % Times New Roman：保留四种字形。
 \setmainfont{times.ttf}[Path=fonts/,BoldFont=timesbd.ttf,
@@ -128,7 +128,7 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 
 ## 目录、附录与引用
 
-目录默认显示一、二、三级标题，并收录参考文献、附录及附录小节。正文使用不带星号的标题命令，即可自动编号并进入目录：
+目录默认显示一、二、三级标题，并收录参考文献、附录及附录小节。目录中的一级条目使用黑体，段前间距为 `1.0em`。正文使用不带星号的标题命令，即可自动编号并进入目录：
 
 ```latex
 \section{问题一的建模与求解} % 一级标题

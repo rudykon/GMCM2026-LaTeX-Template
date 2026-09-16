@@ -45,8 +45,9 @@
     \setCJKfamilyfont{zhsong}{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
   }{\ClassWarningNoLine{gmcm2026}{SimSun unavailable; using FandolSong}}
   \IfFontExistsTF{SimHei}{%
-    \setCJKsansfont{SimHei}
-    \setCJKfamilyfont{zhhei}{SimHei}
+    % SimHei has no separate bold face; keep its native blackface weight.
+    \setCJKsansfont{SimHei}[BoldFont=SimHei]
+    \setCJKfamilyfont{zhhei}{SimHei}[BoldFont=SimHei]
   }{\ClassWarningNoLine{gmcm2026}{SimHei unavailable; using FandolHei}}
 \fi
 \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
@@ -111,7 +112,7 @@
   \ifnum\c@tocdepth>\z@
     \addpenalty\@secpenalty
     \addvspace{1.0em\@plus\p@}%
-    \begingroup\bfseries
+    \begingroup\heiti\bfseries
       \@dottedtocline{1}{0em}{1.8em}{#1}{#2}%
     \endgroup
   \fi}
