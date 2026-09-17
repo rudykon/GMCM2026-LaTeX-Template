@@ -4,7 +4,7 @@
 
 2026「华为杯」第二十三届中国研究生数学建模竞赛论文模板
 
-[完整 PDF](docs/preview.pdf) · [下载源码](https://github.com/rudykon/GMCM2026-LaTeX-Template/archive/refs/heads/main.zip) · [格式说明](docs/FORMAT.md)
+[完整 PDF](docs/preview.pdf) · [Overleaf 下载包](https://github.com/rudykon/GMCM2026-LaTeX-Template/releases/download/v1.7/GMCM2026-LaTeX-Template-main.zip) · [下载源码](https://github.com/rudykon/GMCM2026-LaTeX-Template/archive/refs/heads/main.zip) · [格式说明](docs/FORMAT.md)
 
 [![封面、正文与附录排版预览](docs/preview.png)](docs/preview.pdf)
 
