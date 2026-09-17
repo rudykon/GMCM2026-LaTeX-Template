@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 纸张 | A4 | 附件 3 页面设置 |
 | 页边距 | 上 30 mm，下 18.5 mm，左右 22.5 mm | 参考附件 3 的毫米近似值；下边距计入页脚，见下文 |
-| 正文 | 小四号宋体，单倍行距，首行缩进 2 字 | 小四、宋体、单倍依附件 2；缺少系统宋体时回退到 FandolSong |
+| 正文 | 小四号宋体，单倍行距，首行缩进 2 字 | 小四、宋体、单倍依附件 2；优先加载仓库字体，缺少文件及系统字体时回退到 FandolSong |
 | 论文题目 | 三号黑体，居中 | 附件 2 |
 | 一级标题 | 四号黑体，居中 | 附件 2 |
 | 二、三级标题 | 小四宋体加粗 | 字号与字体依附件 2；加粗为模板选择 |
@@ -30,7 +30,7 @@
 
 默认封面使用从附件 3 提取的四个原始 Logo，并按原件设置学校、参赛队号和三位队员姓名。原件没有“选择题号”、独立年份或“参赛论文”标题，因此默认封面不印这些内容；`problem`、`year` 配置保留兼容。若希望直接使用在 Word 中填写完成的封面，也可按 [封面说明](official/README.md) 导入 A4 PDF。
 
-封面和摘要页参照附件 3：系列赛事标题为 18 pt、赛事名称为 22 pt 华文新魏；摘要中的“题目”“摘要”“关键词”标签为 18 pt 隶书。本机有 `STXinwei`、`LiSu` 时使用相应字体，否则分别回退到黑体、楷体。论文题目本身仍按附件 2 使用三号黑体。正文优先使用系统宋体、黑体，缺少时采用 Fandol；拉丁字体优先 Times New Roman，缺少时采用 TeX Gyre Termes 等替代。
+封面和摘要页参照附件 3：系列赛事标题为 18 pt、赛事名称为 22 pt 华文新魏；摘要中的“题目”“摘要”“关键词”标签为 18 pt 隶书。模板优先加载 `fonts/` 中的宋体、黑体、华文新魏、隶书和 Times New Roman；文件缺少时尝试系统字体，再分别采用 Fandol 或 TeX Gyre Termes 等替代。华文新魏、隶书缺少时分别回退到黑体、楷体。论文题目本身仍按附件 2 使用三号黑体。
 
 本示例按定制要求将封面三个标签等宽对齐、队员姓名居中，并将末条姓名横线延长到与参赛队号横线等长；末条横线因此比附件 3 原件更长。
 
@@ -41,7 +41,7 @@
 
 ## 字体下载与安装
 
-字体文件通过独立的 [Overleaf 字体补充包](https://github.com/rudykon/GMCM2026-LaTeX-Template/releases/download/overleaf-fonts-20260917/GMCM2026-Overleaf-Fonts.zip)提供，不放入模板源码。也可安装免费替代字体完成编译，或按下表获取原字体。字体遵循各自许可，不适用本项目的 MIT 代码许可。
+仓库的 [`fonts/`](../fonts/) 已包含预览所用的 8 个字体文件；下载完整源码即可使用，无需安装到系统。缺少文件时也可安装免费替代字体，或按下表获取原字体。字体来源见 [fonts/README.md](../fonts/README.md)，字体遵循各自许可，不适用本项目的 MIT 代码许可。
 
 ### 免费字体：下载后即可编译
 
@@ -97,11 +97,11 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 
 ### Overleaf 或项目内加载字体
 
-使用字体补充包时，解压后将 `fonts/` 文件夹和 `config.local.tex` 上传到项目根目录，与 `main.tex` 同级。已有 `config.local.tex` 时合并字体设置，保留原有参赛信息。选择 XeLaTeX、主文件 `main.tex`，再执行“Recompile from scratch（从头重新编译）”。补充包使用仓库预览所用的宋体、黑体、华文新魏、隶书及 Times New Roman，并已按实际文件名配置。
+上传完整源码 ZIP，选择 XeLaTeX、主文件 `main.tex` 即可。`fonts/` 与 `main.tex` 同级，模板从 v1.6 起自动加载其中的 `SimSun.ttf`、`SimHei.ttf`、`STXinwei.ttf`、`LiSu.ttf` 及 `Times.TTF`、`Timesbd.TTF`、`Timesi.TTF`、`Timesbi.TTF`，无需为这些文件另建配置。Times New Roman 四种字形需齐全，否则整组改用系统字体或免费替代字体。
 
-模板从 v1.5 起先读取导言中的字体配置，再为未定义的中文字族补上系统字体或 Fandol，避免默认设置与补充包重复加载。旧版出现多条 `Redefining CJKfamily` 时，更新 `gmcm2026.cls` 即可沿用现有字体和配置；无需删除补充包中的四条宋体、黑体设置，它们分别负责正文与显式的 `\songti`、`\heiti`。若主动指定 `fontset=fandol` 后又手动覆盖同名字族，仍可能收到重定义提示。
+已有 `config.local.tex` 的字体设置仍然有效；中文字体在导言结束时只补未定义的字族，避免重复初始化。升级时更新 `gmcm2026.cls`，然后执行“Recompile from scratch（从头重新编译）”。旧版的 [字体补充包](https://github.com/rudykon/GMCM2026-LaTeX-Template/releases/download/overleaf-fonts-20260917/GMCM2026-Overleaf-Fonts.zip)仍可使用。显式指定文档类 `fontset` 时，以该 CTeX 中文字体方案为准；若随后手动覆盖同名字族，仍可能收到重定义提示。
 
-使用免费替代字体时无需上传字体。若要使用自己的原字体，在项目根目录新建 `fonts/` 上传字体文件，并在 `config.local.tex` 中按文件名加载。模板会读取此配置，但不会自动扫描 `fonts/`；仅上传文件并不能保证生效。方法参考 [Overleaf 自定义字体说明](https://www.overleaf.com/learn/latex/Questions/I_have_a_custom_font_I%27d_like_to_load_to_my_document._How_can_I_do_this%3F)。
+使用其他文件名或替换为自己的字体时，可在 `config.local.tex` 中按下例显式指定；模板只自动识别上述固定文件名，不扫描任意字体。方法参考 [Overleaf 自定义字体说明](https://www.overleaf.com/learn/latex/Questions/I_have_a_custom_font_I%27d_like_to_load_to_my_document._How_can_I_do_this%3F)。
 
 以下示例假定文件名与代码完全一致，大小写也须一致。请按实际文件名修改，例如将 `SimSun.ttf` 改为 `simsun.ttc`；不要将 `.ttc` 文件改后缀冒充 `.ttf`。缺少某种字体时，删除对应的整组设置，即保留模板的自动回退。
 
@@ -128,7 +128,7 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 \renewcommand{\gmcmfrontfont}{\CJKfamily{gmcmlisu}}
 ```
 
-`fonts/` 与 `config.local.tex` 已加入 Git 忽略规则，不随正常 Git 提交上传；手动打包 ZIP 时仍需自行选择文件。
+`fonts/` 随源码提供；`config.local.tex` 仍被 Git 忽略，用于个人配置。手动打包 ZIP 时需自行检查是否包含个人信息。
 
 ## 目录、附录与引用
 

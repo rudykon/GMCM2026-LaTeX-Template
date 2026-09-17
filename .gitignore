@@ -23,9 +23,6 @@
 /config.local.tex
 /docs/official/cover.pdf
 
-# Locally supplied fonts; see docs/FORMAT.md.
-/fonts/
-
 # Local authentication and agent state.
 /github_token.json
 /.env

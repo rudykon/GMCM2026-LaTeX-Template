@@ -1,7 +1,7 @@
 % SPDX-License-Identifier: MIT
 % Independently implemented layout; see docs/FORMAT.md for sources.
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{gmcm2026}[2026/09/17 v1.5 GMCM 2026 template]
+\ProvidesClass{gmcm2026}[2026/09/17 v1.6 GMCM 2026 template]
 \RequirePackage{iftex}
 \RequireXeTeX
 \newif\ifgmcm@cover
@@ -55,24 +55,34 @@
   \ExplSyntaxOff
   \newcommand{\gmcm@setupCJKfonts}{%
     \gmcm@ifCJKfamilymissing{\CJKrmdefault}{%
-      \IfFontExistsTF{SimSun}{%
+      \IfFileExists{fonts/SimSun.ttf}{%
+        \setCJKmainfont{SimSun.ttf}[
+          Path=fonts/,AutoFakeBold=2.5,ItalicFont=SimSun.ttf]
+      }{\IfFontExistsTF{SimSun}{%
         \setCJKmainfont{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
       }{\setCJKmainfont{FandolSong-Regular.otf}[
-          BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]}}
+          BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]}}}
     \gmcm@ifCJKfamilymissing{zhsong}{%
-      \IfFontExistsTF{SimSun}{%
+      \IfFileExists{fonts/SimSun.ttf}{%
+        \setCJKfamilyfont{zhsong}{SimSun.ttf}[
+          Path=fonts/,AutoFakeBold=2.5,ItalicFont=SimSun.ttf]
+      }{\IfFontExistsTF{SimSun}{%
         \setCJKfamilyfont{zhsong}{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
       }{\setCJKfamilyfont{zhsong}{FandolSong-Regular.otf}[
-          BoldFont=FandolSong-Bold.otf]}}
+          BoldFont=FandolSong-Bold.otf]}}}
     \gmcm@ifCJKfamilymissing{\CJKsfdefault}{%
-      \IfFontExistsTF{SimHei}{%
+      \IfFileExists{fonts/SimHei.ttf}{%
+        \setCJKsansfont{SimHei.ttf}[Path=fonts/,BoldFont=SimHei.ttf]
+      }{\IfFontExistsTF{SimHei}{%
         \setCJKsansfont{SimHei}[BoldFont=SimHei]
-      }{\setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]}}
+      }{\setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]}}}
     \gmcm@ifCJKfamilymissing{zhhei}{%
-      \IfFontExistsTF{SimHei}{%
+      \IfFileExists{fonts/SimHei.ttf}{%
+        \setCJKfamilyfont{zhhei}{SimHei.ttf}[Path=fonts/,BoldFont=SimHei.ttf]
+      }{\IfFontExistsTF{SimHei}{%
         \setCJKfamilyfont{zhhei}{SimHei}[BoldFont=SimHei]
       }{\setCJKfamilyfont{zhhei}{FandolHei-Regular.otf}[
-          BoldFont=FandolHei-Bold.otf]}}
+          BoldFont=FandolHei-Bold.otf]}}}
     \gmcm@ifCJKfamilymissing{\CJKttdefault}{%
       \setCJKmonofont{FandolFang-Regular.otf}}
     \gmcm@ifCJKfamilymissing{zhfs}{%
@@ -80,6 +90,15 @@
     \gmcm@ifCJKfamilymissing{zhkai}{%
       \setCJKfamilyfont{zhkai}{FandolKai-Regular.otf}}}
 \fi
+% Load the bundled four-face family only when all four files are present.
+\newif\ifgmcm@timesfiles
+\gmcm@timesfilestrue
+\@for\gmcm@fontfile:=Times.TTF,Timesbd.TTF,Timesi.TTF,Timesbi.TTF\do{%
+  \IfFileExists{fonts/\gmcm@fontfile}{}{\gmcm@timesfilesfalse}}
+\ifgmcm@timesfiles
+  \setmainfont{Times.TTF}[Path=fonts/,BoldFont=Timesbd.TTF,
+    ItalicFont=Timesi.TTF,BoldItalicFont=Timesbi.TTF]
+\else
 \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
   % File names also work with TinyTeX without a system fontconfig registration.
   \IfFontExistsTF{texgyretermes-regular.otf}{%
@@ -87,6 +106,7 @@
       BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
   }{\setmainfont{lmroman10}[Extension=.otf,UprightFont=*-regular,
       BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]}}
+\fi
 \IfFontExistsTF{texgyreheros-regular.otf}{%
   \setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,
     BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
@@ -94,14 +114,17 @@
     BoldFont=*-bold,ItalicFont=*-oblique,BoldItalicFont=*-boldoblique]}
 \setmonofont{lmmono10-regular.otf}[
   Scale=MatchLowercase,AutoFakeBold=1.5]
-% Attachment 3 uses these decorative fonts. Do not bundle
-% proprietary fonts; document the portable fallbacks instead.
-\IfFontExistsTF{STXinwei}{%
+% Attachment 3 uses these decorative fonts; prefer the repository files.
+\IfFileExists{fonts/STXinwei.ttf}{%
+  \newCJKfontfamily\gmcmcontestfont{STXinwei.ttf}[Path=fonts/]
+}{\IfFontExistsTF{STXinwei}{%
   \newCJKfontfamily\gmcmcontestfont{STXinwei}%
-}{\newcommand{\gmcmcontestfont}{\heiti}}
-\IfFontExistsTF{LiSu}{%
+}{\newcommand{\gmcmcontestfont}{\heiti}}}
+\IfFileExists{fonts/LiSu.ttf}{%
+  \newCJKfontfamily\gmcmfrontfont{LiSu.ttf}[Path=fonts/]
+}{\IfFontExistsTF{LiSu}{%
   \newCJKfontfamily\gmcmfrontfont{LiSu}%
-}{\newcommand{\gmcmfrontfont}{\kaishu}}
+}{\newcommand{\gmcmfrontfont}{\kaishu}}}
 \RequirePackage{amsmath,amssymb,amsthm,bm}
 \RequirePackage{graphicx,xcolor}
 \RequirePackage{pdfpages}

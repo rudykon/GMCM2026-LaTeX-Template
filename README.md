@@ -29,7 +29,7 @@ latexmk main.tex       # 带封面，生成 main.pdf
 latexmk anonymous.tex  # 省略封面，生成 anonymous.pdf
 ```
 
-**Overleaf：**上传源码 ZIP，选择 XeLaTeX，主文件设为 `main.tex`。
+**Overleaf：**上传源码 ZIP（已含 `fonts/`），选择 XeLaTeX，主文件设为 `main.tex`，即可使用预览中的字体。
 本地也可使用 `bash build.sh` 或 `build.bat`；追加 `clean` 清理辅助文件并保留 PDF。
 
 ## 修改位置
@@ -45,11 +45,11 @@ latexmk anonymous.tex  # 省略封面，生成 anonymous.pdf
 
 示例图使用合成数据，仅展示排版。替换图片时同步修改图题和正文引用，见[插图说明](figures/README.md)。
 
-## 缺少字体
+## 字体说明
 
-字体文件单独放在 [Overleaf 字体补充包](https://github.com/rudykon/GMCM2026-LaTeX-Template/releases/download/overleaf-fonts-20260917/GMCM2026-Overleaf-Fonts.zip)中。解压后将 `fonts/` 和 `config.local.tex` 上传到项目根目录，选择 XeLaTeX 并从头重新编译；已有同名配置时合并字体设置。
+仓库的 [fonts/](fonts/) 已包含宋体、黑体、华文新魏、隶书和 Times New Roman，模板自动按文件路径加载，无需额外安装或配置。已有 `config.local.tex` 字体设置仍然有效。
 
-缺少宋体、黑体或 Times New Roman 时，模板会自动使用免费替代字体。TeX Live / MacTeX / TinyTeX 可安装：
+删除或缺少字体文件时，模板依次尝试系统字体、免费替代字体。TeX Live / MacTeX / TinyTeX 可安装替代字体包：
 
 ```bash
 tlmgr install fandol tex-gyre
@@ -57,7 +57,7 @@ tlmgr install fandol tex-gyre
 
 也可直接下载 [Fandol 中文字体](https://mirrors.ctan.org/fonts/fandol.zip)和 [TeX Gyre 西文字体](https://mirrors.ctan.org/fonts/tex-gyre.zip)；MiKTeX 用户在 Console 中安装同名包。
 
-要使用预览中的宋体、黑体、华文新魏、隶书和 Times New Roman，见[原字体获取、系统安装与 Overleaf 配置](docs/FORMAT.md#字体下载与安装)。免费替代字体的字形与预览有差异。
+字体来源、替换与手动配置见[字体说明](docs/FORMAT.md#字体下载与安装)。免费替代字体的字形与预览有差异。
 
 ## 常用说明
 
