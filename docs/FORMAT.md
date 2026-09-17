@@ -114,11 +114,11 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 \setCJKfamilyfont{zhhei}{SimHei.ttf}[Path=fonts/,BoldFont=SimHei.ttf]
 
 % Times New Roman：保留四种字形。
-\setmainfont{times.ttf}[Path=fonts/,BoldFont=timesbd.ttf,
-  ItalicFont=timesi.ttf,BoldItalicFont=timesbi.ttf]
+\setmainfont{Times.TTF}[Path=fonts/,BoldFont=Timesbd.TTF,
+  ItalicFont=Timesi.TTF,BoldItalicFont=Timesbi.TTF]
 
 % 封面赛事名称：华文新魏。
-\setCJKfamilyfont{gmcmxinwei}{STXINWEI.ttf}[Path=fonts/]
+\setCJKfamilyfont{gmcmxinwei}{STXinwei.ttf}[Path=fonts/]
 \renewcommand{\gmcmcontestfont}{\CJKfamily{gmcmxinwei}}
 
 % 摘要页标签：隶书。
