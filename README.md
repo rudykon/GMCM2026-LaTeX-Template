@@ -30,6 +30,11 @@ latexmk anonymous.tex  # 省略封面，生成 anonymous.pdf
 ```
 
 $\color{red}{\text{在 Overleaf 上用 XeLaTeX 编译器}}$：上传源码 ZIP（已含 `fonts/`），主文件设为 `main.tex`，即可使用预览中的字体。
+
+<img src="docs/overleaf配置编辑器.png" alt="Overleaf 中选择 XeLaTeX 编译器" width="320">
+
+图中红框为编译器设置；主文档请选项目根目录的 `main.tex`。
+
 本地也可使用 `bash build.sh` 或 `build.bat`；追加 `clean` 清理辅助文件并保留 PDF。
 
 ## 修改位置
