@@ -47,7 +47,9 @@ latexmk anonymous.tex  # 省略封面，生成 anonymous.pdf
 
 ## 缺少字体
 
-字体文件不随仓库提供。缺少宋体、黑体或 Times New Roman 时，模板会自动使用免费替代字体。TeX Live / MacTeX / TinyTeX 可安装：
+字体文件单独放在 [Overleaf 字体补充包](https://github.com/rudykon/GMCM2026-LaTeX-Template/releases/download/overleaf-fonts-20260917/GMCM2026-Overleaf-Fonts.zip)中。解压后将 `fonts/` 和 `config.local.tex` 上传到项目根目录，选择 XeLaTeX 并从头重新编译；已有同名配置时合并字体设置。
+
+缺少宋体、黑体或 Times New Roman 时，模板会自动使用免费替代字体。TeX Live / MacTeX / TinyTeX 可安装：
 
 ```bash
 tlmgr install fandol tex-gyre
@@ -65,4 +67,4 @@ tlmgr install fandol tex-gyre
 
 ## 许可与致谢
 
-代码采用 [MIT License](LICENSE)；官方附件与 Logo 等遵循各自许可。参考项目及实现来源见[来源与致谢](docs/FORMAT.md#实现来源与许可)。
+代码采用 [MIT License](LICENSE)；字体、官方附件与 Logo 等遵循各自许可。参考项目及实现来源见[来源与致谢](docs/FORMAT.md#实现来源与许可)。

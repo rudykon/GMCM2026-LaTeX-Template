@@ -41,7 +41,7 @@
 
 ## 字体下载与安装
 
-仓库不分发字体文件。缺少原字体时可先安装免费替代字体完成编译；要接近附件 3 和本仓库预览的字形，则安装下表中的原字体。
+字体文件通过独立的 [Overleaf 字体补充包](https://github.com/rudykon/GMCM2026-LaTeX-Template/releases/download/overleaf-fonts-20260917/GMCM2026-Overleaf-Fonts.zip)提供，不放入模板源码。也可安装免费替代字体完成编译，或按下表获取原字体。字体遵循各自许可，不适用本项目的 MIT 代码许可。
 
 ### 免费字体：下载后即可编译
 
@@ -96,6 +96,8 @@ Windows 可按 `Win + R`，输入 `ms-settings:optionalfeatures` 打开可选功
 Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代字体，应核对输出中的实际字体名。安装 Poppler 工具后，用 `pdffonts main.pdf` 检查 PDF 实际使用和嵌入的字体。更换字体后需重新检查分页与封面效果。
 
 ### Overleaf 或项目内加载字体
+
+使用字体补充包时，解压后将 `fonts/` 文件夹和 `config.local.tex` 上传到项目根目录，与 `main.tex` 同级。已有 `config.local.tex` 时合并字体设置，保留原有参赛信息。选择 XeLaTeX、主文件 `main.tex`，再执行“Recompile from scratch（从头重新编译）”。补充包使用仓库预览所用的宋体、黑体、华文新魏、隶书及 Times New Roman，并已按实际文件名配置。
 
 使用免费替代字体时无需上传字体。若要使用自己的原字体，在项目根目录新建 `fonts/` 上传字体文件，并在 `config.local.tex` 中按文件名加载。模板会读取此配置，但不会自动扫描 `fonts/`；仅上传文件并不能保证生效。方法参考 [Overleaf 自定义字体说明](https://www.overleaf.com/learn/latex/Questions/I_have_a_custom_font_I%27d_like_to_load_to_my_document._How_can_I_do_this%3F)。
 
