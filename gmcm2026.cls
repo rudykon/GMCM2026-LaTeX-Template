@@ -1,7 +1,7 @@
 % SPDX-License-Identifier: MIT
 % Independently implemented layout; see docs/FORMAT.md for sources.
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{gmcm2026}[2026/09/17 v1.6 GMCM 2026 template]
+\ProvidesClass{gmcm2026}[2026/09/17 v1.7 GMCM 2026 template]
 \RequirePackage{iftex}
 \RequireXeTeX
 \newif\ifgmcm@cover
@@ -245,6 +245,18 @@
 \define@key{gmcm}{cover-pdf}{\def\gmcm@coverpdf{#1}}
 \newcommand{\gmcmsetup}[1]{\setkeys{gmcm}{#1}}
 \newcommand{\gmcm@contest}{“华为杯”\gmcm@edition 中国研究生数学建模竞赛}
+% Overlay a small gray text shadow without changing the title's dimensions.
+% Both layers use the font's glyphs; the title stays editable LaTeX text.
+\newsavebox{\gmcm@shadowbox}
+\newcommand{\gmcm@shadowtext}[1]{%
+  \begingroup
+    % A plain hbox lets each copy inherit its surrounding text color.
+    \setbox\gmcm@shadowbox=\hbox{#1}%
+    \leavevmode
+    \rlap{\kern0.6pt\raisebox{-0.6pt}[0pt][0pt]{%
+      \textcolor{black!35}{\usebox{\gmcm@shadowbox}}}}%
+    \usebox{\gmcm@shadowbox}%
+  \endgroup}
 \AtBeginDocument{%
   \hypersetup{pdftitle={\@title},pdfauthor={},pdfsubject={},pdfkeywords={}}}
 % Coordinates reproduce Attachment 3's cover structure. The logos are extracted
@@ -258,9 +270,12 @@
       every node/.style={inner sep=0pt,outer sep=0pt}]
       \node[anchor=north west] at (43.2153,31.9267)
         {\includegraphics{docs/logos.pdf}};
-      \node at (105,79) {\gmcmcontestfont\zihao{-2} 中国研究生创新实践系列大赛};
-      \node at (105,94) {\gmcmcontestfont\zihao{2} “华为杯”\gmcm@edition 中国研究生};
-      \node at (105,110) {\gmcmcontestfont\zihao{2} 数学建模竞赛};
+      \node at (105,79) {\gmcmcontestfont\zihao{-2}
+        \gmcm@shadowtext{中国研究生创新实践系列大赛}};
+      \node at (105,94) {\gmcmcontestfont\zihao{2}
+        \gmcm@shadowtext{“华为杯”\gmcm@edition 中国研究生}};
+      \node at (105,110) {\gmcmcontestfont\zihao{2}
+        \gmcm@shadowtext{数学建模竞赛}};
       % Give all cover labels the same left edge and four-character width.
       \node[anchor=west] at (34.9,144)
         {\songti\bfseries\zihao{-2}\makebox[4em][s]{学\hfill 校}};
@@ -313,10 +328,10 @@
   \pagestyle{plain}
   \vspace*{10mm}
   \begin{center}
-    {\gmcmcontestfont\zihao{-2} 中国研究生创新实践系列大赛\par}
+    {\gmcmcontestfont\zihao{-2}\gmcm@shadowtext{中国研究生创新实践系列大赛}\par}
     \vspace{5mm}
-    {\gmcmcontestfont\zihao{2} “华为杯”\gmcm@edition 中国研究生\par
-      \vspace{3mm}数学建模竞赛\par}
+    {\gmcmcontestfont\zihao{2}\gmcm@shadowtext{“华为杯”\gmcm@edition 中国研究生}\par
+      \vspace{3mm}\gmcm@shadowtext{数学建模竞赛}\par}
   \end{center}
   \vspace{8mm}
   \noindent\begin{tabularx}{\textwidth}{@{}l>{\centering\arraybackslash}X@{}}
