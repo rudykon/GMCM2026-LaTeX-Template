@@ -1,7 +1,7 @@
 % SPDX-License-Identifier: MIT
 % Independently implemented layout; see docs/FORMAT.md for sources.
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{gmcm2026}[2026/09/16 v1.4 GMCM 2026 template]
+\ProvidesClass{gmcm2026}[2026/09/17 v1.5 GMCM 2026 template]
 \RequirePackage{iftex}
 \RequireXeTeX
 \newif\ifgmcm@cover
@@ -24,7 +24,12 @@
   \ifin@\gmcm@autofontsfalse\fi
   \PassOptionsToClass{\CurrentOption}{ctexart}}
 \ProcessOptions\relax
-\ifgmcm@autofonts\PassOptionsToClass{fontset=fandol}{ctexart}\fi
+\ifgmcm@autofonts
+  % Let config.local.tex select fonts before filling in missing families.
+  \PassOptionsToClass{fontset=none}{ctexart}
+  \AddToHook{begindocument/before}[gmcm2026/fonts]{\gmcm@setupCJKfonts}
+  \DeclareHookRule{begindocument/before}{gmcm2026/fonts}{before}{xeCJK}
+\fi
 \LoadClass[UTF8,a4paper,zihao=-4]{ctexart}
 \RequirePackage{geometry}
 % Attachment 3: 1702/1048/1276/1274 twips, rounded to 0.1 mm.
@@ -37,18 +42,43 @@
 \setlength{\parindent}{2em}
 \setlength{\parskip}{0pt}
 \raggedbottom
-% Prefer the official Word fonts when installed. An explicit fontset wins.
+% An explicit CTeX fontset wins. Otherwise configure each CJK family once,
+% after user settings and before xeCJK checks the document's default family.
 \ifgmcm@autofonts
-  \IfFontExistsTF{SimSun}{%
-    % SimSun has no italic face; keep Chinese text upright as required.
-    \setCJKmainfont{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
-    \setCJKfamilyfont{zhsong}{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
-  }{\ClassWarningNoLine{gmcm2026}{SimSun unavailable; using FandolSong}}
-  \IfFontExistsTF{SimHei}{%
-    % SimHei has no separate bold face; keep its native blackface weight.
-    \setCJKsansfont{SimHei}[BoldFont=SimHei]
-    \setCJKfamilyfont{zhhei}{SimHei}[BoldFont=SimHei]
-  }{\ClassWarningNoLine{gmcm2026}{SimHei unavailable; using FandolHei}}
+  \providecommand{\songti}{\CJKfamily{zhsong}}
+  \providecommand{\heiti}{\CJKfamily{zhhei}}
+  \providecommand{\fangsong}{\CJKfamily{zhfs}}
+  \providecommand{\kaishu}{\CJKfamily{zhkai}}
+  \ExplSyntaxOn
+  \cs_new_protected:Npn \gmcm@ifCJKfamilymissing #1
+    { \exp_args:Nx \xeCJK_family_if_exist:nF {#1} }
+  \ExplSyntaxOff
+  \newcommand{\gmcm@setupCJKfonts}{%
+    \gmcm@ifCJKfamilymissing{\CJKrmdefault}{%
+      \IfFontExistsTF{SimSun}{%
+        \setCJKmainfont{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
+      }{\setCJKmainfont{FandolSong-Regular.otf}[
+          BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]}}
+    \gmcm@ifCJKfamilymissing{zhsong}{%
+      \IfFontExistsTF{SimSun}{%
+        \setCJKfamilyfont{zhsong}{SimSun}[AutoFakeBold=2.5,ItalicFont=SimSun]
+      }{\setCJKfamilyfont{zhsong}{FandolSong-Regular.otf}[
+          BoldFont=FandolSong-Bold.otf]}}
+    \gmcm@ifCJKfamilymissing{\CJKsfdefault}{%
+      \IfFontExistsTF{SimHei}{%
+        \setCJKsansfont{SimHei}[BoldFont=SimHei]
+      }{\setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]}}
+    \gmcm@ifCJKfamilymissing{zhhei}{%
+      \IfFontExistsTF{SimHei}{%
+        \setCJKfamilyfont{zhhei}{SimHei}[BoldFont=SimHei]
+      }{\setCJKfamilyfont{zhhei}{FandolHei-Regular.otf}[
+          BoldFont=FandolHei-Bold.otf]}}
+    \gmcm@ifCJKfamilymissing{\CJKttdefault}{%
+      \setCJKmonofont{FandolFang-Regular.otf}}
+    \gmcm@ifCJKfamilymissing{zhfs}{%
+      \setCJKfamilyfont{zhfs}{FandolFang-Regular.otf}}
+    \gmcm@ifCJKfamilymissing{zhkai}{%
+      \setCJKfamilyfont{zhkai}{FandolKai-Regular.otf}}}
 \fi
 \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
   % File names also work with TinyTeX without a system fontconfig registration.

@@ -99,6 +99,8 @@ Linux 可用 `fc-match SimSun` 查看匹配结果；该命令可能返回替代�
 
 使用字体补充包时，解压后将 `fonts/` 文件夹和 `config.local.tex` 上传到项目根目录，与 `main.tex` 同级。已有 `config.local.tex` 时合并字体设置，保留原有参赛信息。选择 XeLaTeX、主文件 `main.tex`，再执行“Recompile from scratch（从头重新编译）”。补充包使用仓库预览所用的宋体、黑体、华文新魏、隶书及 Times New Roman，并已按实际文件名配置。
 
+模板从 v1.5 起先读取导言中的字体配置，再为未定义的中文字族补上系统字体或 Fandol，避免默认设置与补充包重复加载。旧版出现多条 `Redefining CJKfamily` 时，更新 `gmcm2026.cls` 即可沿用现有字体和配置；无需删除补充包中的四条宋体、黑体设置，它们分别负责正文与显式的 `\songti`、`\heiti`。若主动指定 `fontset=fandol` 后又手动覆盖同名字族，仍可能收到重定义提示。
+
 使用免费替代字体时无需上传字体。若要使用自己的原字体，在项目根目录新建 `fonts/` 上传字体文件，并在 `config.local.tex` 中按文件名加载。模板会读取此配置，但不会自动扫描 `fonts/`；仅上传文件并不能保证生效。方法参考 [Overleaf 自定义字体说明](https://www.overleaf.com/learn/latex/Questions/I_have_a_custom_font_I%27d_like_to_load_to_my_document._How_can_I_do_this%3F)。
 
 以下示例假定文件名与代码完全一致，大小写也须一致。请按实际文件名修改，例如将 `SimSun.ttf` 改为 `simsun.ttc`；不要将 `.ttc` 文件改后缀冒充 `.ttf`。缺少某种字体时，删除对应的整组设置，即保留模板的自动回退。
