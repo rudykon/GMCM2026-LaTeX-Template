@@ -29,7 +29,7 @@ latexmk main.tex       # 带封面，生成 main.pdf
 latexmk anonymous.tex  # 省略封面，生成 anonymous.pdf
 ```
 
-**Overleaf：**上传源码 ZIP（已含 `fonts/`），选择 XeLaTeX，主文件设为 `main.tex`，即可使用预览中的字体。
+$\color{red}{\text{在 Overleaf 上用 XeLaTeX 编译器}}$：上传源码 ZIP（已含 `fonts/`），主文件设为 `main.tex`，即可使用预览中的字体。
 本地也可使用 `bash build.sh` 或 `build.bat`；追加 `clean` 清理辅助文件并保留 PDF。
 
 ## 修改位置
