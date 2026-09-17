@@ -250,14 +250,14 @@
 % Coordinates reproduce Attachment 3's cover structure. The logos are extracted
 % from its original embedded images, including its crop of the university logo.
 \newcommand{\gmcm@nativecover}{%
-  \IfFileExists{docs/official/logos.pdf}{}{%
-    \ClassError{gmcm2026}{Official logo asset missing: docs/official/logos.pdf}%
-      {Restore docs/official/logos.pdf from the template distribution.}}
+  \IfFileExists{docs/logos.pdf}{}{%
+    \ClassError{gmcm2026}{Official logo asset missing: docs/logos.pdf}%
+      {Restore docs/logos.pdf from the template distribution.}}
   \begin{tikzpicture}[remember picture,overlay]
     \begin{scope}[shift={(current page.north west)},x=1mm,y=-1mm,
       every node/.style={inner sep=0pt,outer sep=0pt}]
       \node[anchor=north west] at (43.2153,31.9267)
-        {\includegraphics{docs/official/logos.pdf}};
+        {\includegraphics{docs/logos.pdf}};
       \node at (105,79) {\gmcmcontestfont\zihao{-2} 中国研究生创新实践系列大赛};
       \node at (105,94) {\gmcmcontestfont\zihao{2} “华为杯”\gmcm@edition 中国研究生};
       \node at (105,110) {\gmcmcontestfont\zihao{2} 数学建模竞赛};

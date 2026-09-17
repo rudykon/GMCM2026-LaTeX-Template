@@ -63,7 +63,7 @@ tlmgr install fandol tex-gyre
 
 正式稿使用 `main.tex`；封面不编号，摘要从第 1 页开始，摘要后自动生成目录，后续页码连续。若不需要目录，在文档类选项中加入 `notoc`。`anonymous.tex` 仅省略封面，用于内部审阅。
 
-参赛信息也可写入被 Git 忽略的 `config.local.tex`。导入 Word 封面见[封面说明](docs/official/README.md)，版式细节见[格式说明](docs/FORMAT.md)。
+参赛信息也可写入被 Git 忽略的 `config.local.tex`。导入 Word 封面见[封面说明](docs/FORMAT.md#导入-word-封面)，版式细节见[格式说明](docs/FORMAT.md)。
 
 ## 许可与致谢
 

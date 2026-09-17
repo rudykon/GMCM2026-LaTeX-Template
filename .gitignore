@@ -21,7 +21,7 @@
 
 # Personal competition information.
 /config.local.tex
-/docs/official/cover.pdf
+/docs/cover.pdf
 
 # Local authentication and agent state.
 /github_token.json
